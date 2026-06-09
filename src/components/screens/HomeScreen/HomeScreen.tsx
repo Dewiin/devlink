@@ -1,10 +1,13 @@
-
+// components
+import { HomeSidebar } from "./HomeSidebar"
+import { HomeContent } from "./HomeContent"
 
 export function HomeScreen() {
 
     return (
-        <>
-            Welcome to home screen.
-        </>
+        <div className="w-full h-full flex">
+            <HomeSidebar />
+            <HomeContent />
+        </div>
     )
 }

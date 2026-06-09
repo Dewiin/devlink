@@ -17,11 +17,11 @@ export function Sidebar() {
 
     const active = location.pathname.startsWith("/chats") 
     ? "chat" : "global";
-    
+
     return (
         <div
-        className="p-6 h-full 
-        flex flex-col gap-6
+        className="p-4 h-full 
+        flex flex-col gap-4
         bg-sidebar text-sm font-semibold select-none"
         >
             <div className="w-12 h-12 bg-black rounded-sm m-auto" />
@@ -29,7 +29,7 @@ export function Sidebar() {
             <Separator />
 
             <div className="flex flex-col flex-1 gap-1
-            *:flex *:gap-2 *:items-center *:p-2 *:pr-16 *:rounded-sm *:cursor-pointer
+            *:flex *:gap-2 *:items-center *:p-2 *:pr-12 *:rounded-sm *:cursor-pointer
             *:hover:bg-accent *:active:bg-accent/50 *:duration-100 
             ">
                 <div 
@@ -52,7 +52,7 @@ export function Sidebar() {
             <Separator />
             
             <div className="flex flex-col gap-1
-            *:flex *:gap-2 *:items-center *:p-2 *:pr-16 *:rounded-sm *:cursor-pointer
+            *:flex *:gap-2 *:items-center *:p-2 *:pr-12 *:rounded-sm *:cursor-pointer
             *:hover:bg-accent *:active:bg-accent/50 *:duration-100
             ">
                 <div>
