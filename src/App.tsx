@@ -13,7 +13,7 @@ function App() {
     <Routes>
       <Route element={<AppLayout />}>
         <Route path='/' element={<HomeScreen />} />
-        <Route path='/chat/:chatId' element={<ChatScreen />} />
+        <Route path='/chats/:chatId?' element={<ChatScreen />} />
         <Route path='/settings' element={<SettingsScreen />} />
       </Route>
 

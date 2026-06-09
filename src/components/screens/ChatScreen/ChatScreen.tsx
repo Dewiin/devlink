@@ -3,7 +3,7 @@
 export function ChatScreen() {
     return (
         <>
-            Welcome to chat screen.
+            Welcome to chats screen.
         </>
     )
 }

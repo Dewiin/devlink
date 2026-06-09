@@ -1,3 +1,5 @@
+import { useLocation, useNavigate } from "react-router"
+
 // components
 import { Separator } from "@/components/ui/separator"
 
@@ -10,26 +12,38 @@ import {
 } from "lucide-react"
 
 export function Sidebar() {
+    const location = useLocation();
+    const navigate = useNavigate();
 
+    const active = location.pathname.startsWith("/chats") 
+    ? "chat" : "global";
+    
     return (
         <div
-            className="p-6 h-full 
-            flex flex-col gap-6
-            bg-sidebar text-sm font-semibold"
+        className="p-6 h-full 
+        flex flex-col gap-6
+        bg-sidebar text-sm font-semibold select-none"
         >
             <div className="w-12 h-12 bg-black rounded-sm m-auto" />
 
             <Separator />
 
-            <div className="flex flex-col flex-1 gap-2
+            <div className="flex flex-col flex-1 gap-1
             *:flex *:gap-2 *:items-center *:p-2 *:pr-16 *:rounded-sm *:cursor-pointer
             *:hover:bg-accent *:active:bg-accent/50 *:duration-100 
             ">
-                <div>
+                <div 
+                className={`${active === "global" && "bg-accent"}`}
+                onClick={() => navigate("/")}
+                >
                     <Globe />
                     <p>Global</p>
                 </div>
-                <div>
+                <div 
+                className={`${active === "chat" && "bg-accent"}`}
+                onClick={() => navigate("/chats")}
+                >
+                
                     <MessageSquare />
                     <p>Chats</p>
                 </div>
@@ -37,7 +51,7 @@ export function Sidebar() {
 
             <Separator />
             
-            <div className="flex flex-col gap-2
+            <div className="flex flex-col gap-1
             *:flex *:gap-2 *:items-center *:p-2 *:pr-16 *:rounded-sm *:cursor-pointer
             *:hover:bg-accent *:active:bg-accent/50 *:duration-100
             ">
