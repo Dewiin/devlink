@@ -1,9 +1,12 @@
-
+// components
+import { ChatSidebar } from "./ChatSidebar"
+import { ChatContent } from "./ChatContent"
 
 export function ChatScreen() {
     return (
-        <>
-            Welcome to chats screen.
-        </>
+        <div className="w-full h-full flex">
+            <ChatSidebar />
+            <ChatContent />
+        </div>
     )
 }

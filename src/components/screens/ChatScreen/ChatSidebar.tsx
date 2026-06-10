@@ -8,18 +8,18 @@ import {
 // icons
 import { Search } from "lucide-react"
 
-export function HomeSidebar() {
+export function ChatSidebar() {
     return (
         <div 
         className="w-xs 
         bg-accent rounded-sm m-2 p-4
         flex flex-col gap-4"
         >   
-            <p className="text-2xl font-bold">Global</p>
+            <p className="text-2xl font-bold">Chats</p>
 
             <InputGroup>
                 <InputGroupInput 
-                placeholder="Search for a user"
+                placeholder="Search for a chat"
                 />
                 <InputGroupAddon>
                     <Search />
