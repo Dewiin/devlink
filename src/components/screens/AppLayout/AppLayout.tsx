@@ -5,10 +5,10 @@ import { Sidebar } from "./Sidebar"
 
 export function AppLayout() {
     return (
-        <div className="h-full flex">
+        <div className="h-full flex overflow-hidden">
             <Sidebar />
 
-            <div className="flex-1">
+            <div className="relative flex-1">
                 <Outlet />
             </div>
         </div>

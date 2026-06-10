@@ -9,6 +9,7 @@ import {
     MessageSquare,
     CircleUser, 
     LogOut, 
+    LogIn
 } from "lucide-react"
 
 export function Sidebar() {
@@ -55,13 +56,19 @@ export function Sidebar() {
             *:flex *:gap-2 *:items-center *:p-2 *:pr-12 *:rounded-sm *:cursor-pointer
             *:hover:bg-accent *:active:bg-accent/50 *:duration-100
             ">
-                <div>
+                {/* <div>
                     <CircleUser />
                     <p>Profile</p>
                 </div>
                 <div>
                     <LogOut />
                     <p>Logout</p>
+                </div> */}
+                <div
+                onClick={() => navigate("/login")}
+                >
+                    <LogIn />
+                    <p>Sign In</p>
                 </div>
             </div>
         </div>
