@@ -1,6 +1,8 @@
 import z from "zod";
 
-// Username and passphrase parameters
+// Name and passphrase parameters
+const NAME_LEN_MINIMUM = 1
+const NAME_LEN_MAXIMUM = 50
 const PASS_LEN_MINIMUM = 8
 const PASS_LEN_MAXIMUM = 512
 const PRINTABLE_UNICODE = /^[\P{Cc}\P{Cn}\P{Cs}]+$/gu // allow only, printable (unicode) characters; https://stackoverflow.com/a/12054775
@@ -18,10 +20,10 @@ export const loginSchema = z.object({
 });
 
 export const signupSchema = z.object({
-    displayName: z.string().trim().min(1, {
+    displayName: z.string().trim().min(NAME_LEN_MINIMUM, {
         error: "Name must have a character."
-    }).max(20, {
-        error: "Name is limited to 20 characters."
+    }).max(NAME_LEN_MAXIMUM, {
+        error: "Name is limited to " + NAME_LEN_MAXIMUM + " characters."
     }),
     email: z.email(),
     password: z.string().min(PASS_LEN_MINIMUM, {
