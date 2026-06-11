@@ -7,6 +7,7 @@ import { HomeScreen } from '@/components/screens/HomeScreen/HomeScreen'
 import { ChatScreen } from '@/components/screens/ChatScreen/ChatScreen'
 import { SettingsScreen } from '@/components/screens/SettingsScreen/SettingsScreen'
 import { LoginScreen } from '@/components/screens/AuthScreen/LoginScreen'
+import { SignupScreen } from '@/components/screens/AuthScreen/SignupScreen'
 import { Page404 } from '@/components/screens/ErrorScreens/Page404'
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path='/chats/:chatId?' element={<ChatScreen />} />
         <Route path='/settings' element={<SettingsScreen />} />
         <Route path='/login' element={<LoginScreen />} />
+        <Route path='/signup' element={<SignupScreen />} />
       </Route>
 
       <Route path='/*' element={<Page404 />} />
