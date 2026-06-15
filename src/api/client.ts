@@ -1,9 +1,14 @@
+import type { Sonner } from "@/components/types/Sonner";
+import type { Dispatch, SetStateAction } from "react";
+
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 export async function api(
     path: string,
     options: RequestInit = {},
     accessToken: string = "",
+    setError?: Dispatch<SetStateAction<Sonner>>,
+    setSuccess? : Dispatch<SetStateAction<Sonner>>
 ) { 
     let response = await fetch(`${VITE_API_URL}${path}`, {
         ...options,
@@ -29,10 +34,16 @@ export async function api(
 
     let result = await response.json();
     if(!response.ok) {
-        // toast
+        setError && setError({
+            type: result.status,
+            title: result.error.title,
+        });
         result = null;
     } else {
-        // toast
+        setSuccess && setSuccess({
+            type: "success",
+            title: result.message
+        });
     }
 
     return result;
