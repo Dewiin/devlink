@@ -18,11 +18,12 @@ export async function getCurrentUser(
     return result;
 }
 
-type SignupResponse = {
+type AuthResponse = {
     message: string,
     accessToken: string,
     user: User
 }
+
 export async function signup(
     data: {
         displayName: string, 
@@ -30,15 +31,32 @@ export async function signup(
         password: string
     },
     setSonner: Dispatch<SetStateAction<Sonner>>
-): Promise<SignupResponse> {
+): Promise<AuthResponse> {
     return await api('/api/auth/signup', {
         method: "POST",
         body: JSON.stringify(data),
         headers: {"Content-Type": "application/json"},
-        credentials: "include"
     }, undefined, setSonner);
 }
 
-export async function login() {
+export async function login(
+    data: {
+        email: string,
+        password: string
+    },
+    setSonner: Dispatch<SetStateAction<Sonner>>
+): Promise<AuthResponse> {
+    return await api('/api/auth/login', {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {"Content-Type": "application/json"},
+    }, undefined, setSonner);
+}
 
+export async function logout(
+    setSonner: Dispatch<SetStateAction<Sonner>>
+) {
+    return await api('/api/auth/logout', {
+        method: "GET",
+    }, undefined, setSonner);
 }

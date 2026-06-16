@@ -46,7 +46,7 @@ import { signupSchema } from "@/components/schemas/auth"
 
 export function SignupScreen() {
     const [ passwordVisible, setPasswordVisible ] = useState(false);
-    const { setUser, setToken }= useAuth();
+    const { user, setUser, setToken }= useAuth();
     const { setSonner } = useUI();
     const navigate = useNavigate();
 
@@ -73,6 +73,8 @@ export function SignupScreen() {
         { loading: "Creating new account..." }
         );
     };
+
+    if(user) navigate("/")
 
     return (
         <div className="relative w-full h-full

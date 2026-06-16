@@ -2,6 +2,10 @@ import { useForm, Controller,  } from "react-hook-form"
 import { useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react";
+import z from "zod"
+
+// api
+import { login } from "@/api/auth";
 
 // components
 import { 
@@ -28,6 +32,11 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { GoogleLogo } from "@/components/ui/googleLogo";
 import { AuthBackground } from "./AuthBackground";
+import { toast } from "sonner";
+
+// contexts
+import { useAuth } from "@/components/contexts/AuthContext";
+import { useUI } from "@/components/contexts/UIContext";
 
 // icons
 import { Eye, EyeOff } from "lucide-react";
@@ -36,7 +45,9 @@ import { Eye, EyeOff } from "lucide-react";
 import { loginSchema } from "@/components/schemas/auth"
 
 export function LoginScreen() {
-    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [ passwordVisible, setPasswordVisible ] = useState(false);
+    const { user, setToken, setUser } = useAuth();
+    const { setSonner } = useUI();
     const navigate = useNavigate();
 
     const form = useForm({
@@ -48,9 +59,21 @@ export function LoginScreen() {
         mode: "onChange"
     });
 
-    async function handleSubmit() {
+    async function handleSubmit(data: z.infer<typeof loginSchema>) {
+        console.log(data);
+        toast.promise(async() => {
+            const result = await login(data, setSonner);
 
+            if(result) {
+                setToken(result.accessToken);
+                setUser(result.user);
+            }
+        },
+        { loading: "Logging in..." }
+        );
     }
+
+    if(user) navigate("/")
 
     return (
         <div className="relative w-full h-full

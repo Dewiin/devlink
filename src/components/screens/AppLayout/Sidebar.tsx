@@ -1,10 +1,15 @@
 import { useLocation, useNavigate } from "react-router"
 
+// api
+import { logout } from "@/api/auth";
+
 // components
 import { Separator } from "@/components/ui/separator"
+import { toast } from "sonner";
 
 // contexts
 import { useAuth } from "@/components/contexts/AuthContext";
+import { useUI } from "@/components/contexts/UIContext";
 
 // icons
 import { 
@@ -16,12 +21,22 @@ import {
 } from "lucide-react"
 
 export function Sidebar() {
-    const { user } = useAuth();
+    const { user, setUser } = useAuth();
+    const { setSonner } = useUI();
     const location = useLocation();
     const navigate = useNavigate();
 
     const active = location.pathname.startsWith("/chats") 
     ? "chat" : "global";
+
+    function handleLogout() {
+        toast.promise(async () => {
+            const result = await logout(setSonner);
+            if(result) setUser(undefined);
+        }, {
+            loading: "Logging out..."
+        });
+    }
 
     return (
         <div
@@ -66,7 +81,9 @@ export function Sidebar() {
                         <CircleUser />
                         <p>{user.displayName}</p>
                     </div>
-                    <div>
+                    <div
+                    onClick={() => handleLogout()}
+                    >
                         <LogOut />
                         <p>Logout</p>
                     </div>
