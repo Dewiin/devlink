@@ -27,8 +27,10 @@ export function HomeSidebar() {
             </InputGroup>
 
             <div className="flex flex-col gap-1 overflow-auto">
-                {Array.from({length: 100}, () =>(
-                    <div className="rounded-sm cursor-pointer
+                {Array.from({length: 100}, (_, index) => (
+                    <div 
+                    key={index}
+                    className="rounded-sm cursor-pointer
                     hover:bg-chart-4/75 active:bg-chart-4 duration-100">
                         <div className="h-12" />
                     </div>

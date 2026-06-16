@@ -65,6 +65,7 @@ export function LoginScreen() {
             const result = await login(data, setSonner);
 
             if(result) {
+                console.log(result.accessToken)
                 setToken(result.accessToken);
                 setUser(result.user);
             }
@@ -72,8 +73,6 @@ export function LoginScreen() {
         { loading: "Logging in..." }
         );
     }
-
-    if(user) navigate("/")
 
     return (
         <div className="relative w-full h-full

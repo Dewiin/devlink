@@ -25,8 +25,10 @@ export function AuthProvider({ children }: { children: ReactNode}) {
 
     useEffect(() => {
         async function getUser() {
-            if(token) {
-                const result = await getCurrentUser(token);
+            const accessToken = localStorage.getItem("accessToken");
+            setToken(accessToken);
+            if(accessToken) {
+                const result = await getCurrentUser(accessToken);
                 if(result) setUser(result.user)
             }
         }

@@ -19,13 +19,22 @@ export async function api(
     });
 
     if(response.status === 401) {
-        const refreshResponse = await fetch('/api/auth/refresh', {
+        const refreshResponse = await fetch(`${VITE_API_URL}/api/auth/refresh`, {
             method: "GET",
             credentials: "include"
         });
 
+        if (!refreshResponse.ok) {
+            localStorage.removeItem("accessToken");
+            setSonner && setSonner({type: "warning", title: "Refresh failed"});
+        }
+
         const data = await refreshResponse.json();
-        localStorage.setItem("accessToken", data.accessToken);
+
+        if (!data.accessToken) {
+            localStorage.removeItem("accessToken");
+            setSonner && setSonner({type: "warning", title: "No token returned"});
+        }
         
         response = await fetch(`${VITE_API_URL}${path}`, {
             ...options,
