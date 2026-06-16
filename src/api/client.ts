@@ -7,12 +7,14 @@ export async function api(
     path: string,
     options: RequestInit = {},
     accessToken: string = "",
-    setError?: Dispatch<SetStateAction<Sonner>>,
-    setSuccess? : Dispatch<SetStateAction<Sonner>>
+    setSonner?: Dispatch<SetStateAction<Sonner>>,
 ) { 
     let response = await fetch(`${VITE_API_URL}${path}`, {
         ...options,
-        headers: {"Authorization": `Bearer ${accessToken}`},
+        headers: {
+            ...(options.headers ?? {}),
+            "Authorization": `Bearer ${accessToken}`
+        },
         credentials: "include"
     });
 
@@ -27,20 +29,23 @@ export async function api(
         
         response = await fetch(`${VITE_API_URL}${path}`, {
             ...options,
-            headers: {"Authorization": `Bearer ${data.accessToken}`},
+            headers: {
+                ...(options.headers ?? {}),
+                "Authorization": `Bearer ${data.accessToken}`
+            },
             credentials: "include"
         });
     }
 
     let result = await response.json();
     if(!response.ok) {
-        setError && setError({
-            type: result.status,
-            title: result.error.title,
+        setSonner && setSonner({
+            type: "error",
+            title: result.error,
         });
         result = null;
     } else {
-        setSuccess && setSuccess({
+        setSonner && setSonner({
             type: "success",
             title: result.message
         });

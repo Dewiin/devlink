@@ -3,6 +3,9 @@ import { useLocation, useNavigate } from "react-router"
 // components
 import { Separator } from "@/components/ui/separator"
 
+// contexts
+import { useAuth } from "@/components/contexts/AuthContext";
+
 // icons
 import { 
     Globe,
@@ -13,6 +16,7 @@ import {
 } from "lucide-react"
 
 export function Sidebar() {
+    const { user } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -56,20 +60,26 @@ export function Sidebar() {
             *:flex *:gap-2 *:items-center *:p-2 *:pr-12 *:rounded-sm *:cursor-pointer
             *:hover:bg-accent *:active:bg-accent/50 *:duration-100
             ">
-                {/* <div>
-                    <CircleUser />
-                    <p>Profile</p>
-                </div>
-                <div>
-                    <LogOut />
-                    <p>Logout</p>
-                </div> */}
-                <div
-                onClick={() => navigate("/login")}
-                >
-                    <LogIn />
-                    <p>Sign In</p>
-                </div>
+                {user &&
+                <>
+                    <div>
+                        <CircleUser />
+                        <p>{user.displayName}</p>
+                    </div>
+                    <div>
+                        <LogOut />
+                        <p>Logout</p>
+                    </div>
+                </>
+                }
+                {!user && 
+                    <div
+                    onClick={() => navigate("/login")}
+                    >
+                        <LogIn />
+                        <p>Sign In</p>
+                    </div>
+                }
             </div>
         </div>
     )

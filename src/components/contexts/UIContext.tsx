@@ -46,6 +46,6 @@ export function UIProvider({ children }: { children: ReactNode}) {
     )
 }
 
-export async function useUI() {
+export function useUI() {
     return useContext(UIContext);
 }

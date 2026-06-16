@@ -24,12 +24,19 @@ export function AuthProvider({ children }: { children: ReactNode}) {
     const [ user, setUser ] = useState<User|undefined>();
 
     useEffect(() => {
-        const accessToken = localStorage.getItem("accessToken");
-        if(accessToken) {
-            setToken(accessToken);
-            getCurrentUser(accessToken, setUser);
+        async function getUser() {
+            if(token) {
+                const result = await getCurrentUser(token);
+                if(result) setUser(result.user)
+            }
         }
+
+        getUser();
     }, []);
+
+    useEffect(() => {
+        if(token) localStorage.setItem("accessToken", token);
+    }, [token]);
 
     const values = {
         token, 

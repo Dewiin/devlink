@@ -2,6 +2,10 @@ import { useForm, Controller,  } from "react-hook-form"
 import { useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react";
+import z from "zod"
+
+// api
+import { signup } from "@/api/auth";
 
 // components
 import { 
@@ -28,6 +32,11 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { GoogleLogo } from "@/components/ui/googleLogo";
 import { AuthBackground } from "./AuthBackground";
+import { toast } from "sonner";
+
+// contexts
+import { useAuth } from "@/components/contexts/AuthContext";
+import { useUI } from "@/components/contexts/UIContext";
 
 // icons
 import { Eye, EyeOff } from "lucide-react";
@@ -36,7 +45,9 @@ import { Eye, EyeOff } from "lucide-react";
 import { signupSchema } from "@/components/schemas/auth"
 
 export function SignupScreen() {
-    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [ passwordVisible, setPasswordVisible ] = useState(false);
+    const { setUser, setToken }= useAuth();
+    const { setSonner } = useUI();
     const navigate = useNavigate();
 
     const form = useForm({
@@ -49,9 +60,19 @@ export function SignupScreen() {
         mode: "onChange"
     });
 
-    async function handleSubmit() {
+    async function handleSubmit(data: z.infer<typeof signupSchema>) {
+        console.log(data);
+        toast.promise(async() => {
+            const result = await signup(data, setSonner);
 
-    }
+            if(result) {
+                setToken(result.accessToken);
+                setUser(result.user);
+            }
+        },
+        { loading: "Creating new account..." }
+        );
+    };
 
     return (
         <div className="relative w-full h-full
