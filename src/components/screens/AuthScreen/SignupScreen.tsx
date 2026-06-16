@@ -1,7 +1,7 @@
 import { useForm, Controller,  } from "react-hook-form"
 import { useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import z from "zod"
 
 // api
@@ -46,7 +46,7 @@ import { signupSchema } from "@/components/schemas/auth"
 
 export function SignupScreen() {
     const [ passwordVisible, setPasswordVisible ] = useState(false);
-    const { user, setUser, setToken }= useAuth();
+    const { user, setUser, setToken, isAuthLoading, setIsAuthLoading }= useAuth();
     const { setSonner } = useUI();
     const navigate = useNavigate();
 
@@ -60,14 +60,22 @@ export function SignupScreen() {
         mode: "onChange"
     });
 
-    async function handleSubmit(data: z.infer<typeof signupSchema>) {
-        console.log(data);
-        toast.promise(async() => {
-            const result = await signup(data, setSonner);
+    useEffect(() => {
+        if(!isAuthLoading && user) navigate('/')
+    }, [isAuthLoading]);
 
-            if(result) {
-                setToken(result.accessToken);
-                setUser(result.user);
+    async function handleSubmit(data: z.infer<typeof signupSchema>) {
+        toast.promise(async() => {
+            setIsAuthLoading(true);
+            try {
+                const result = await signup(data, setSonner);
+    
+                if(result) {
+                    setToken(result.accessToken);
+                    setUser(result.user);
+                }
+            } finally {
+                setIsAuthLoading(false);
             }
         },
         { loading: "Creating new account..." }

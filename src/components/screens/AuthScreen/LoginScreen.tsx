@@ -1,7 +1,7 @@
 import { useForm, Controller,  } from "react-hook-form"
 import { useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import z from "zod"
 
 // api
@@ -46,7 +46,7 @@ import { loginSchema } from "@/components/schemas/auth"
 
 export function LoginScreen() {
     const [ passwordVisible, setPasswordVisible ] = useState(false);
-    const { user, setToken, setUser } = useAuth();
+    const { user, setToken, setUser, isAuthLoading, setIsAuthLoading } = useAuth();
     const { setSonner } = useUI();
     const navigate = useNavigate();
 
@@ -59,15 +59,22 @@ export function LoginScreen() {
         mode: "onChange"
     });
 
+    useEffect(() => {
+        if(!isAuthLoading && user) navigate('/')
+    }, [isAuthLoading]);
+    
     async function handleSubmit(data: z.infer<typeof loginSchema>) {
-        console.log(data);
         toast.promise(async() => {
-            const result = await login(data, setSonner);
-
-            if(result) {
-                console.log(result.accessToken)
-                setToken(result.accessToken);
-                setUser(result.user);
+            setIsAuthLoading(true);
+            try {
+                const result = await login(data, setSonner);
+    
+                if(result) {
+                    setToken(result.accessToken);
+                    setUser(result.user);
+                }
+            } finally {
+                setIsAuthLoading(false);
             }
         },
         { loading: "Logging in..." }

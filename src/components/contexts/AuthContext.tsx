@@ -11,25 +11,35 @@ type AuthContextProps = {
     token: string|null,
     setToken: Dispatch<SetStateAction<string|null>>,
     user: User|undefined,
-    setUser: Dispatch<SetStateAction<User|undefined>>
+    setUser: Dispatch<SetStateAction<User|undefined>>,
+    isAuthLoading: boolean,
+    setIsAuthLoading: Dispatch<SetStateAction<boolean>>
 }
 const AuthContext = createContext<AuthContextProps>({
     token: null,
     setToken: () => {},
     user: undefined,
-    setUser: () => {}
+    setUser: () => {},
+    isAuthLoading: false,
+    setIsAuthLoading: () => {}
 });
 export function AuthProvider({ children }: { children: ReactNode}) {
     const [ token, setToken ] = useState<string|null>(null); 
     const [ user, setUser ] = useState<User|undefined>();
+    const [ isAuthLoading, setIsAuthLoading ] = useState(false);
 
     useEffect(() => {
         async function getUser() {
-            const accessToken = localStorage.getItem("accessToken");
-            setToken(accessToken);
-            if(accessToken) {
-                const result = await getCurrentUser(accessToken);
-                if(result) setUser(result.user)
+            setIsAuthLoading(true);
+            try {
+                const accessToken = localStorage.getItem("accessToken");
+                setToken(accessToken);
+                if(accessToken) {
+                    const result = await getCurrentUser(accessToken);
+                    if(result) setUser(result.user)
+                }
+            } finally {
+                setIsAuthLoading(false);
             }
         }
 
@@ -44,7 +54,9 @@ export function AuthProvider({ children }: { children: ReactNode}) {
         token, 
         setToken,
         user, 
-        setUser
+        setUser,
+        isAuthLoading, 
+        setIsAuthLoading
     }
     return (
         <AuthContext value={values}>
