@@ -84,6 +84,8 @@ export function LoginScreen() {
     return (
         <div className="relative w-full h-full
         flex justify-center items-center">
+            {!isAuthLoading && !user &&
+            <>
             <div className="absolute inset-2 -z-10">
                 <AuthBackground />
             </div>
@@ -186,6 +188,7 @@ export function LoginScreen() {
                     </CardFooter>
                 </Card>
             </div>
+            </>}
         </div>
     )
 }

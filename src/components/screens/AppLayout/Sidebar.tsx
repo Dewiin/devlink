@@ -5,6 +5,7 @@ import { logout } from "@/api/auth";
 
 // components
 import { Separator } from "@/components/ui/separator"
+import { Spinner } from "@/components/ui/spinner";
 import { toast } from "sonner";
 
 // contexts
@@ -21,7 +22,7 @@ import {
 } from "lucide-react"
 
 export function Sidebar() {
-    const { user, setUser } = useAuth();
+    const { user, setUser, isAuthLoading } = useAuth();
     const { setSonner } = useUI();
     const location = useLocation();
     const navigate = useNavigate();
@@ -75,7 +76,12 @@ export function Sidebar() {
             *:flex *:gap-2 *:items-center *:p-2 *:pr-12 *:rounded-sm *:cursor-pointer
             *:hover:bg-accent *:active:bg-accent/50 *:duration-100
             ">
-                {user &&
+                {isAuthLoading &&
+                <div>
+                    <Spinner className="size-6" />
+                </div>
+                }
+                {!isAuthLoading && user &&
                 <>
                     <div>
                         <CircleUser />
@@ -89,7 +95,7 @@ export function Sidebar() {
                     </div>
                 </>
                 }
-                {!user && 
+                {!isAuthLoading && !user && 
                     <div
                     onClick={() => navigate("/login")}
                     >
