@@ -47,7 +47,7 @@ export function Sidebar() {
         >
             <img 
             src="/src/assets/logo.png"
-            className="w-12 h-12 bg-black rounded-sm m-auto outline" 
+            className="w-12 h-12 rounded-sm m-auto outline" 
             />
 
             <Separator />
@@ -67,7 +67,6 @@ export function Sidebar() {
                 className={`${active === "chat" && "bg-accent"}`}
                 onClick={() => navigate("/chats")}
                 >
-                
                     <MessageSquare />
                     <p>Chats</p>
                 </div>

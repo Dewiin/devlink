@@ -54,7 +54,7 @@ export function HomeSidebar() {
                     rounded-sm cursor-pointer py-2 px-4 
                     hover:bg-chart-4/75 active:bg-chart-4 duration-100"
                     >
-                        <div className="bg-black h-8 w-8 rounded-sm" />
+                        <div className="bg-primary h-8 w-8 rounded-sm" />
                         <p>{user.displayName}</p>
                     </div>
                 ))}

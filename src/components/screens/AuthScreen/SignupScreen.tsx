@@ -30,7 +30,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { GoogleLogo } from "@/components/ui/googleLogo";
+import { GoogleLogo, GithubLogo } from "@/components/ui/logos";
 import { AuthBackground } from "./AuthBackground";
 import { toast } from "sonner";
 
@@ -187,14 +187,24 @@ export function SignupScreen() {
                                 </span>
                                 <Separator className="flex-1" />
                             </div>
-                            <Button
-                            className="w-full cursor-pointer"
-                            variant="outline"
-                            disabled={isAuthLoading}
-                            >
-                                <GoogleLogo />
-                                Continue with Google
-                            </Button>
+                            <div className="flex flex-col gap-2">
+                                <Button
+                                className="w-full cursor-pointer"
+                                variant="outline"
+                                disabled={isAuthLoading}
+                                >
+                                    <GoogleLogo />
+                                    Continue with Google
+                                </Button>
+                                <Button
+                                className="w-full cursor-pointer"
+                                variant="outline"
+                                disabled={isAuthLoading}
+                                >
+                                    <GithubLogo />
+                                    Continue with GitHub
+                                </Button>
+                            </div>
                         </form>
                     </CardContent>
                     <CardFooter>
