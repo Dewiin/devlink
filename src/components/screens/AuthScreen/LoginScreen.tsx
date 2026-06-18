@@ -73,6 +73,9 @@ export function LoginScreen() {
                     setToken(result.accessToken);
                     setUser(result.user);
                 }
+            } catch {
+                setToken(null);
+                setUser(undefined);
             } finally {
                 setIsAuthLoading(false);
             }
@@ -84,14 +87,12 @@ export function LoginScreen() {
     return (
         <div className="relative w-full h-full
         flex justify-center items-center">
-            {!isAuthLoading && !user &&
-            <>
             <div className="absolute inset-2 -z-10">
                 <AuthBackground />
             </div>
             
             <div className="flex flex-col gap-2 
-            p-4 max-w-lg md:w-md w-sm">
+            max-w-lg md:w-md w-sm">
                 <div className="flex gap-2 items-end">
                     <img
                     src="/src/assets/logo.png"
@@ -122,6 +123,7 @@ export function LoginScreen() {
                                         aria-invalid={fieldState.invalid}
                                         placeholder="d@example.com"
                                         autoComplete="new-password"
+                                        disabled={isAuthLoading}
                                         />
                                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                                     </Field>
@@ -139,6 +141,7 @@ export function LoginScreen() {
                                             aria-invalid={fieldState.invalid}
                                             type={passwordVisible ? "text" : "password"}
                                             autoComplete="new-password"
+                                            disabled={isAuthLoading}
                                             />
                                             <InputGroupAddon 
                                             align="inline-end"
@@ -155,6 +158,7 @@ export function LoginScreen() {
                             </FieldGroup>
                             <Button 
                             className="w-full cursor-pointer"
+                            disabled={isAuthLoading}
                             >
                                 Log In
                             </Button>
@@ -168,6 +172,7 @@ export function LoginScreen() {
                             <Button
                             className="w-full cursor-pointer"
                             variant="outline"
+                            disabled={isAuthLoading}
                             >
                                 <GoogleLogo />
                                 Continue with Google
@@ -188,7 +193,6 @@ export function LoginScreen() {
                     </CardFooter>
                 </Card>
             </div>
-            </>}
         </div>
     )
 }

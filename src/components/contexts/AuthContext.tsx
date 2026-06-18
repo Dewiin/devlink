@@ -38,6 +38,10 @@ export function AuthProvider({ children }: { children: ReactNode}) {
                     const result = await getCurrentUser(accessToken);
                     if(result) setUser(result.user)
                 }
+            } catch {
+                localStorage.removeItem("accessToken");
+                setToken(null);
+                setUser(undefined);
             } finally {
                 setIsAuthLoading(false);
             }

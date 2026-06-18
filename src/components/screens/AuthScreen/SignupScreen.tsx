@@ -74,6 +74,9 @@ export function SignupScreen() {
                     setToken(result.accessToken);
                     setUser(result.user);
                 }
+            } catch {
+                setToken(null);
+                setUser(undefined);
             } finally {
                 setIsAuthLoading(false);
             }
@@ -85,14 +88,12 @@ export function SignupScreen() {
     return (
         <div className="relative w-full h-full
         flex justify-center items-center">
-            {!isAuthLoading && !user &&
-            <>
             <div className="absolute inset-2 -z-10">
                 <AuthBackground />
             </div>
             
             <div className="flex flex-col gap-2 
-            p-4 max-w-lg md:w-md w-sm">
+            max-w-lg md:w-md w-sm">
                 <div className="flex gap-2 items-end">
                     <img
                     src="/src/assets/logo.png"
@@ -123,6 +124,7 @@ export function SignupScreen() {
                                         aria-invalid={fieldState.invalid}
                                         placeholder="John Doe"
                                         autoComplete="new-password"
+                                        disabled={isAuthLoading}
                                         />
                                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                                     </Field>
@@ -139,6 +141,7 @@ export function SignupScreen() {
                                         aria-invalid={fieldState.invalid}
                                         placeholder="d@example.com"
                                         autoComplete="new-password"
+                                        disabled={isAuthLoading}
                                         />
                                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                                     </Field>
@@ -156,6 +159,7 @@ export function SignupScreen() {
                                             aria-invalid={fieldState.invalid}
                                             type={passwordVisible ? "text" : "password"}
                                             autoComplete="new-password"
+                                            disabled={isAuthLoading}
                                             />
                                             <InputGroupAddon 
                                             align="inline-end"
@@ -172,6 +176,7 @@ export function SignupScreen() {
                             </FieldGroup>
                             <Button 
                             className="w-full cursor-pointer"
+                            disabled={isAuthLoading}
                             >
                                 Create an account
                             </Button>
@@ -185,6 +190,7 @@ export function SignupScreen() {
                             <Button
                             className="w-full cursor-pointer"
                             variant="outline"
+                            disabled={isAuthLoading}
                             >
                                 <GoogleLogo />
                                 Continue with Google
@@ -205,7 +211,6 @@ export function SignupScreen() {
                     </CardFooter>
                 </Card>
             </div>
-            </>}
         </div>
     )
 }
