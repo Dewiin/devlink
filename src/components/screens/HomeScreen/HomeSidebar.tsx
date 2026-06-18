@@ -1,3 +1,8 @@
+import { useState, useEffect } from "react"
+
+// api
+import { getAllUsers } from "@/api/user"
+
 // components
 import { 
     InputGroup,
@@ -8,7 +13,21 @@ import {
 // icons
 import { Search } from "lucide-react"
 
+// types
+import type { User } from "@/components/types/User"
+
 export function HomeSidebar() {
+    const [ users, setUsers ] = useState<User[]>([]);
+
+    useEffect(() => {
+        async function fetchGlobalUsers() {
+            const result = await getAllUsers();
+            if(result) setUsers(result.users);
+        }
+
+        fetchGlobalUsers();
+    }, []);
+
     return (
         <div 
         className="w-xs 
@@ -27,12 +46,16 @@ export function HomeSidebar() {
             </InputGroup>
 
             <div className="flex flex-col gap-1 overflow-auto">
-                {Array.from({length: 100}, (_, index) => (
-                    <div 
-                    key={index}
-                    className="rounded-sm cursor-pointer
-                    hover:bg-chart-4/75 active:bg-chart-4 duration-100">
-                        <div className="h-12" />
+                {users.map((user) => (
+                    <div
+                    key={user.id}
+                    className="flex gap-4 items-center 
+                    text-sm font-medium
+                    rounded-sm cursor-pointer py-2 px-4 
+                    hover:bg-chart-4/75 active:bg-chart-4 duration-100"
+                    >
+                        <div className="bg-black h-8 w-8 rounded-sm" />
+                        <p>{user.displayName}</p>
                     </div>
                 ))}
             </div>
