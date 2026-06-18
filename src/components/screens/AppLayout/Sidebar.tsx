@@ -45,7 +45,10 @@ export function Sidebar() {
         flex flex-col gap-4
         bg-sidebar text-sm font-semibold select-none"
         >
-            <div className="w-12 h-12 bg-black rounded-sm m-auto" />
+            <img 
+            src="/src/assets/logo.png"
+            className="w-12 h-12 bg-black rounded-sm m-auto outline" 
+            />
 
             <Separator />
 
