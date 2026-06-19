@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import z from "zod"
 
 // api
-import { signup } from "@/api/auth";
+import { oauthLogin, signup } from "@/api/auth";
 
 // components
 import { 
@@ -46,7 +46,7 @@ import { signupSchema } from "@/components/schemas/auth"
 
 export function SignupScreen() {
     const [ passwordVisible, setPasswordVisible ] = useState(false);
-    const { user, setUser, setToken, isAuthLoading, setIsAuthLoading }= useAuth();
+    const { user, setUser, isAuthLoading, setIsAuthLoading }= useAuth();
     const { setSonner } = useUI();
     const navigate = useNavigate();
 
@@ -69,13 +69,8 @@ export function SignupScreen() {
             setIsAuthLoading(true);
             try {
                 const result = await signup(data, setSonner);
-    
-                if(result) {
-                    setToken(result.accessToken);
-                    setUser(result.user);
-                }
+                if(result) setUser(result.user);
             } catch {
-                setToken(null);
                 setUser(undefined);
             } finally {
                 setIsAuthLoading(false);
@@ -191,7 +186,9 @@ export function SignupScreen() {
                                 <Button
                                 className="w-full cursor-pointer"
                                 variant="outline"
+                                type="button"
                                 disabled={isAuthLoading}
+                                onClick={() => oauthLogin("google")}
                                 >
                                     <GoogleLogo />
                                     Continue with Google
@@ -199,7 +196,9 @@ export function SignupScreen() {
                                 <Button
                                 className="w-full cursor-pointer"
                                 variant="outline"
+                                type="button"
                                 disabled={isAuthLoading}
+                                onClick={() => oauthLogin("github")}
                                 >
                                     <GithubLogo />
                                     Continue with GitHub

@@ -1,4 +1,4 @@
-import { api } from "./client";
+import { api, VITE_API_URL } from "./client";
 
 // types
 import type { User } from "@/components/types/User";
@@ -8,20 +8,17 @@ import type { Dispatch, SetStateAction } from "react";
 type GetCurrentUserResponse = {
     user: User
 }
-export async function getCurrentUser(
-    token: string
-): Promise<GetCurrentUserResponse> {
-    const result = await api('/api/auth/me', {
-        method: "GET",
-    }, token);
-
-    return result;
-}
 
 type AuthResponse = {
     message: string,
     accessToken: string,
     user: User
+}
+
+export async function getCurrentUser(): Promise<GetCurrentUserResponse> {
+    return await api('/api/auth/me', {
+        method: "GET",
+    });
 }
 
 export async function signup(
@@ -36,7 +33,7 @@ export async function signup(
         method: "POST",
         body: JSON.stringify(data),
         headers: {"Content-Type": "application/json"},
-    }, undefined, setSonner);
+    }, setSonner);
 }
 
 export async function login(
@@ -50,7 +47,11 @@ export async function login(
         method: "POST",
         body: JSON.stringify(data),
         headers: {"Content-Type": "application/json"},
-    }, undefined, setSonner);
+    }, setSonner);
+}
+
+export function oauthLogin(provider: string) {
+    window.location.href=`${VITE_API_URL}/api/auth/${provider}`;
 }
 
 export async function logout(
@@ -58,5 +59,5 @@ export async function logout(
 ) {
     return await api('/api/auth/logout', {
         method: "GET",
-    }, undefined, setSonner);
+    }, setSonner);
 }

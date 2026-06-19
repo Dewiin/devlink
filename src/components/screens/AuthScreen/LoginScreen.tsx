@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import z from "zod"
 
 // api
-import { login } from "@/api/auth";
+import { login, oauthLogin } from "@/api/auth";
 
 // components
 import { 
@@ -46,7 +46,7 @@ import { loginSchema } from "@/components/schemas/auth"
 
 export function LoginScreen() {
     const [ passwordVisible, setPasswordVisible ] = useState(false);
-    const { user, setToken, setUser, isAuthLoading, setIsAuthLoading } = useAuth();
+    const { user, setUser, isAuthLoading, setIsAuthLoading } = useAuth();
     const { setSonner } = useUI();
     const navigate = useNavigate();
 
@@ -68,13 +68,8 @@ export function LoginScreen() {
             setIsAuthLoading(true);
             try {
                 const result = await login(data, setSonner);
-    
-                if(result) {
-                    setToken(result.accessToken);
-                    setUser(result.user);
-                }
+                if(result) setUser(result.user);
             } catch {
-                setToken(null);
                 setUser(undefined);
             } finally {
                 setIsAuthLoading(false);
@@ -173,7 +168,9 @@ export function LoginScreen() {
                                 <Button
                                 className="w-full cursor-pointer"
                                 variant="outline"
+                                type="button"
                                 disabled={isAuthLoading}
+                                onClick={() => oauthLogin("google")}
                                 >
                                     <GoogleLogo />
                                     Continue with Google
@@ -181,7 +178,9 @@ export function LoginScreen() {
                                 <Button
                                 className="w-full cursor-pointer"
                                 variant="outline"
+                                type="button"
                                 disabled={isAuthLoading}
+                                onClick={() => oauthLogin("github")}
                                 >
                                     <GithubLogo />
                                     Continue with GitHub

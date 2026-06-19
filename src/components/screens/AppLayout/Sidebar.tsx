@@ -75,7 +75,7 @@ export function Sidebar() {
             <Separator />
             
             <div className="flex flex-col gap-1
-            *:flex *:gap-2 *:items-center *:p-2 *:pr-12 *:rounded-sm *:cursor-pointer
+            *:flex *:gap-2 *:items-center *:p-2 *:rounded-sm *:cursor-pointer
             *:hover:bg-accent *:active:bg-accent/50 *:duration-100
             ">
                 {isAuthLoading &&
