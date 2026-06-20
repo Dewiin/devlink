@@ -28,9 +28,9 @@ export function UIProvider({ children }: { children: ReactNode}) {
         const title = sonner.title;
         const description = sonner.description;
         if(type) {
-            if(type === "success") toast.success(title, { description, richColors: true })
-            if(type === "warning") toast.warning(title, { description, richColors: true })
-            if(type === "error") toast.error(title, { description, richColors: true })
+            if(type === "success") toast.success(title, { description, richColors: true, position: "top-right" })
+            if(type === "warning") toast.warning(title, { description, richColors: true, position: "top-right" })
+            if(type === "error") toast.error(title, { description, richColors: true, position: "top-right" })
         }
     }, [ sonner ]);
 
