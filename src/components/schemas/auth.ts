@@ -11,11 +11,11 @@ const PRINTABLE_MESSAGE = "can only contain printable characters."
 export const loginSchema = z.object({
     email: z.email(),
     password: z.string().min(PASS_LEN_MINIMUM, {
-        message: "Password must be at least " + PASS_LEN_MINIMUM + " characters."
+        error: "Password must be at least " + PASS_LEN_MINIMUM + " characters."
     }). max(PASS_LEN_MAXIMUM, {
-        message: "Password has a " + PASS_LEN_MAXIMUM + " character limit."
+        error: "Password has a " + PASS_LEN_MAXIMUM + " character limit."
     }).regex(PRINTABLE_UNICODE, { 
-        message: "Password " + PRINTABLE_MESSAGE
+        error: "Password " + PRINTABLE_MESSAGE
     }),
 });
 
@@ -27,10 +27,10 @@ export const signupSchema = z.object({
     }),
     email: z.email(),
     password: z.string().min(PASS_LEN_MINIMUM, {
-        message: "Password must be at least " + PASS_LEN_MINIMUM + " characters."
+        error: "Password must be at least " + PASS_LEN_MINIMUM + " characters."
     }). max(PASS_LEN_MAXIMUM, {
-        message: "Password has a " + PASS_LEN_MAXIMUM + " character limit."
+        error: "Password has a " + PASS_LEN_MAXIMUM + " character limit."
     }).regex(PRINTABLE_UNICODE, { 
-        message: "Password " + PRINTABLE_MESSAGE
+        error: "Password " + PRINTABLE_MESSAGE
     }),
 });
