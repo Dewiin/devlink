@@ -64,7 +64,7 @@ export function LoginScreen() {
     }, [isAuthLoading]);
     
     async function handleSubmit(data: z.infer<typeof loginSchema>) {
-        toast.promise(async() => {
+        toast.promise(async () => {
             setIsAuthLoading(true);
             try {
                 const result = await login(data, setSonner);
@@ -76,6 +76,21 @@ export function LoginScreen() {
             }
         },
         { loading: "Logging in..." }
+        );
+    }
+
+    async function handleOauthSubmit(provider: string) {
+        toast.promise(async () => {
+            setIsAuthLoading(true);
+            try {
+                await oauthLogin(provider); 
+            } catch {
+                setUser(undefined);
+            } finally {
+                setIsAuthLoading(false);
+            }
+        },
+        { loading: `Logging in with ${provider}...` }
         );
     }
 
@@ -170,7 +185,7 @@ export function LoginScreen() {
                                 variant="outline"
                                 type="button"
                                 disabled={isAuthLoading}
-                                onClick={() => oauthLogin("google")}
+                                onClick={() => handleOauthSubmit("google")}
                                 >
                                     <GoogleLogo />
                                     Continue with Google
@@ -180,7 +195,7 @@ export function LoginScreen() {
                                 variant="outline"
                                 type="button"
                                 disabled={isAuthLoading}
-                                onClick={() => oauthLogin("github")}
+                                onClick={() => handleOauthSubmit("github")}
                                 >
                                     <GithubLogo />
                                     Continue with GitHub

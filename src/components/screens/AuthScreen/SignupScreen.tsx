@@ -80,6 +80,21 @@ export function SignupScreen() {
         );
     };
 
+    async function handleOauthSubmit(provider: string) {
+        toast.promise(async () => {
+            setIsAuthLoading(true);
+            try {
+                await oauthLogin(provider); 
+            } catch {
+                setUser(undefined);
+            } finally {
+                setIsAuthLoading(false);
+            }
+        },
+        { loading: `Logging in with ${provider}...` }
+        );
+    }
+
     return (
         <div className="relative w-full h-full
         flex justify-center items-center">
@@ -188,7 +203,7 @@ export function SignupScreen() {
                                 variant="outline"
                                 type="button"
                                 disabled={isAuthLoading}
-                                onClick={() => oauthLogin("google")}
+                                onClick={() => handleOauthSubmit("google")}
                                 >
                                     <GoogleLogo />
                                     Continue with Google
@@ -198,7 +213,7 @@ export function SignupScreen() {
                                 variant="outline"
                                 type="button"
                                 disabled={isAuthLoading}
-                                onClick={() => oauthLogin("github")}
+                                onClick={() => handleOauthSubmit("github")}
                                 >
                                     <GithubLogo />
                                     Continue with GitHub

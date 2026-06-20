@@ -50,8 +50,14 @@ export async function login(
     }, setSonner);
 }
 
-export function oauthLogin(provider: string) {
-    window.location.href=`${VITE_API_URL}/api/auth/${provider}`;
+export async function oauthLogin(provider: string) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve(
+                window.location.href=`${VITE_API_URL}/api/auth/${provider}`
+            );
+        }, 1000);
+    })
 }
 
 export async function logout(
