@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod"
@@ -26,7 +26,6 @@ import { Button } from "@/components/ui/button"
 
 // contexts
 import { useAuth } from "@/components/contexts/AuthContext"
-import { useUI } from "@/components/contexts/UIContext"
 
 // helpers
 import { isNewDay } from "@/helpers/isNewDay"
@@ -44,6 +43,7 @@ import type { Message } from "@/components/types/Message"
 export function HomeContent() {
     const [ globalChat, setGlobalChat ] = useState<Message[]>([]);
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
+    const bottomRef = useRef<HTMLDivElement>(null);
     const { user } = useAuth();
 
     useEffect(() => {
@@ -61,6 +61,12 @@ export function HomeContent() {
 
         fetchGlobalChat();
     }, []);
+
+    useEffect(() => {
+        bottomRef.current?.scrollIntoView({
+            behavior: "smooth"
+        });
+    }, [globalChat]);
 
     const form = useForm<z.infer<typeof messageSchema>>({
         resolver: zodResolver(messageSchema),
@@ -171,6 +177,7 @@ export function HomeContent() {
                             </div>
                         </div>
                     )})}
+                    <div ref={bottomRef} />
             </div>
 
             {/* Textarea */}
