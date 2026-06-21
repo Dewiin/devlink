@@ -9,6 +9,10 @@ import {
     InputGroupAddon,
     InputGroupInput,
 } from "@/components/ui/input-group"
+import { 
+    Avatar,
+    AvatarFallback 
+} from "@/components/ui/avatar"
 
 // icons
 import { Search } from "lucide-react"
@@ -45,16 +49,20 @@ export function HomeSidebar() {
                 </InputGroupAddon>
             </InputGroup>
 
-            <div className="flex flex-col gap-1 overflow-auto">
+            <div className="flex flex-col overflow-auto">
                 {users.map((user) => (
                     <div
                     key={user.id}
-                    className="flex gap-4 items-center 
+                    className="flex gap-2 items-center 
                     text-sm font-medium
                     rounded-sm cursor-pointer py-2 px-4 
                     hover:bg-chart-4/75 active:bg-chart-4 duration-100"
                     >
-                        <div className="bg-primary h-8 w-8 rounded-sm" />
+                        <Avatar>
+                            <AvatarFallback>
+                                {user.displayName.charAt(0)}
+                            </AvatarFallback>
+                        </Avatar>
                         <p>{user.displayName}</p>
                     </div>
                 ))}
