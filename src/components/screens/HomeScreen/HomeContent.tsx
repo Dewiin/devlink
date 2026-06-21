@@ -30,6 +30,7 @@ import { useUI } from "@/components/contexts/UIContext"
 
 // helpers
 import { isNewDay } from "@/helpers/isNewDay"
+import { isNewSender } from "@/helpers/isNewSender"
 
 // icons
 import { SendHorizonal } from "lucide-react"
@@ -92,12 +93,19 @@ export function HomeContent() {
             <Separator/>
 
             {/* Chat Content */}
-            <div className="flex-1 flex flex-col gap-4 overflow-auto">
+            <div className="flex-1 flex flex-col overflow-auto">
                 {globalChat.map((chat, index) => {
                     const showDate = isNewDay(
                         chat.createdAt,
                         globalChat[index-1]?.createdAt
                     )
+
+                    const showAvatar = isNewSender(
+                        chat,
+                        globalChat[index-1]
+                    )
+
+                    const currentUserMessage = chat.sender.id === user?.id;
 
                     return (
                         <div key={chat.id}>
@@ -117,19 +125,49 @@ export function HomeContent() {
                                 </p>
                             </div>
                             }
-                            <div className="flex gap-2 items-end">
-                                <Avatar size="lg">
-                                    <AvatarFallback>{chat.sender.displayName.charAt(0)}</AvatarFallback>
-                                </Avatar>
-                                <div className="flex flex-col">
-                                    <p className="text-xs">{chat.sender.displayName}</p>
-                                    <div
-                                        className="bg-ring/20 text-primary text-sm rounded-xl
-                                        py-2 px-4 w-fit max-w-sm"
-                                        >
-                                        {chat.content}
+                            <div className={`flex gap-2 items-end p-1 ${showAvatar && "mt-4"} 
+                            hover:bg-ring/25 duration-50 rounded-xs`}>
+                                {!currentUserMessage ? 
+                                <>
+                                    {showAvatar ?
+                                    <Avatar size="lg">
+                                        <AvatarFallback>{chat.sender.displayName.charAt(0)}</AvatarFallback>
+                                    </Avatar>
+                                    :
+                                    <div className="w-10" />
+                                    }
+                                    <div className="flex-1 flex flex-col gap-1">
+                                        {showAvatar &&
+                                        <p className="text-xs">{chat.sender.displayName}</p>
+                                        }
+                                        <div
+                                            className="text-primary text-sm
+                                            w-full whitespace-pre-wrap"
+                                            >
+                                            {chat.content}
+                                        </div>
                                     </div>
-                                </div>
+                                </> : <>
+                                    <div className="flex-1 flex flex-col gap-1 text-right">
+                                        {showAvatar &&
+                                        <p className="text-xs">{chat.sender.displayName}</p>
+                                        }
+                                        <div
+                                            className="text-primary text-sm
+                                            w-full whitespace-pre-wrap"
+                                            >
+                                            {chat.content}
+                                        </div>
+                                    </div>
+                                    {showAvatar ?
+                                    <Avatar size="lg">
+                                        <AvatarFallback>{chat.sender.displayName.charAt(0)}</AvatarFallback>
+                                    </Avatar>
+                                    :
+                                    <div className="w-10" />
+                                    }
+                                </>
+                                }
                             </div>
                         </div>
                     )})}
