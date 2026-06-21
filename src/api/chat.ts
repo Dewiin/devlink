@@ -45,3 +45,18 @@ export async function getConversation(
 
     return result.conversation;
 }
+
+export async function postChat(
+    data: {
+        content: string,
+    },
+    conversationId: string
+): Promise<Message> {
+    const result = await api(`/api/chat/${conversationId}`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {"Content-Type": "application/json"}
+    });
+
+    return result.message;
+}

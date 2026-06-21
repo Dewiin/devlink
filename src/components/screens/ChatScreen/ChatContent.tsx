@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 
 // api
-import { getConversation } from "@/api/chat";
+import { getConversation, postChat } from "@/api/chat";
 
 // components
 import { 
@@ -77,9 +77,24 @@ export function ChatContent() {
     }, [conversation]);
 
     async function handleSubmit(data: z.infer<typeof messageSchema>) {
+        if(!conversation) return;
+
         setIsLoading(true);
         try {
-            
+            const result = await postChat(data, conversation.id);
+
+            if(result) {
+                setConversation((prev) => {
+                    if(!prev) return prev;
+                    return {
+                        ...prev,
+                        messages: [
+                            ...prev.messages, result
+                        ]
+                    }
+                });
+                form.reset();
+            }
         } finally {
             setIsLoading(false);
         }
