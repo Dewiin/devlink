@@ -9,8 +9,9 @@ import { getGlobalChat, postGlobalChat } from "@/api/chat"
 // components
 import { 
     InputGroup,
+    InputGroupAddon ,
+    InputGroupButton,
     InputGroupTextarea,
-    InputGroupAddon 
 } from "@/components/ui/input-group"
 import { 
     Field,
@@ -22,7 +23,6 @@ import {
     AvatarFallback 
 } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
-import { Button } from "@/components/ui/button"
 
 // contexts
 import { useAuth } from "@/components/contexts/AuthContext"
@@ -46,6 +46,14 @@ export function HomeContent() {
     const bottomRef = useRef<HTMLDivElement>(null);
     const { user } = useAuth();
 
+    const form = useForm<z.infer<typeof messageSchema>>({
+        resolver: zodResolver(messageSchema),
+        defaultValues: {
+            content: ""
+        },
+        mode: "onChange"
+    });
+
     useEffect(() => {
         if(globalChat.length > 0) return;
 
@@ -67,14 +75,6 @@ export function HomeContent() {
             behavior: "smooth"
         });
     }, [globalChat]);
-
-    const form = useForm<z.infer<typeof messageSchema>>({
-        resolver: zodResolver(messageSchema),
-        defaultValues: {
-            content: ""
-        },
-        mode: "onChange"
-    });
 
     async function handleSubmit(data: z.infer<typeof messageSchema>) {
         setIsLoading(true);
@@ -177,7 +177,7 @@ export function HomeContent() {
                             </div>
                         </div>
                     )})}
-                    <div ref={bottomRef} />
+                <div ref={bottomRef} />
             </div>
 
             {/* Textarea */}
@@ -187,7 +187,7 @@ export function HomeContent() {
                     control={form.control}
                     disabled={!user || isLoading}
                     render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.error}>
+                        <Field>
                             <InputGroup>
                                 <InputGroupTextarea 
                                 {...field}
@@ -196,14 +196,14 @@ export function HomeContent() {
                                 />
                                 <InputGroupAddon align="block-end" className="cursor-default">
                                     <p>{field.value.length}/500</p>
-                                    <Button 
-                                    className="ml-auto cursor-pointer bg-transparent hover:bg-muted-foreground/25"
+                                    <InputGroupButton 
+                                    className="ml-auto cursor-pointer hover:bg-muted-foreground/25"
                                     disabled={!user || isLoading}
                                     type="submit"
                                     size="icon-sm"
                                     >
                                         <SendHorizonal className="text-muted-foreground" />
-                                    </Button>
+                                    </InputGroupButton>
                                 </InputGroupAddon>
                             </InputGroup>
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

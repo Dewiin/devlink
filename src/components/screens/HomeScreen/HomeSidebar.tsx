@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router"
 
 // api
 import { getAllUsers } from "@/api/user"
@@ -22,11 +23,12 @@ import type { User } from "@/components/types/User"
 
 export function HomeSidebar() {
     const [ users, setUsers ] = useState<User[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchGlobalUsers() {
             const result = await getAllUsers();
-            if(result) setUsers(result.users);
+            if(result) setUsers(result);
         }
 
         fetchGlobalUsers();
@@ -38,7 +40,7 @@ export function HomeSidebar() {
         bg-accent rounded-sm m-2 p-4
         flex flex-col gap-4"
         >   
-            <p className="text-2xl font-bold">Global</p>
+            <p className="text-2xl font-bold">Users</p>
 
             <InputGroup>
                 <InputGroupInput 
@@ -57,6 +59,7 @@ export function HomeSidebar() {
                     text-sm font-medium
                     rounded-sm cursor-pointer py-2 px-4 
                     hover:bg-chart-4/75 active:bg-chart-4 duration-100"
+                    onClick={() => navigate(`/profile/${user.id}`)}
                     >
                         <Avatar>
                             <AvatarFallback>

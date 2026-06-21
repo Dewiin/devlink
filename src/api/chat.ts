@@ -2,6 +2,7 @@ import { api } from "./client";
 
 // types
 import type { Message } from "@/components/types/Message";
+import type { Conversation } from "@/components/types/Conversation";
 import type { GlobalChat } from "@/components/types/GlobalChat";
 import type { User } from "@/components/types/User";
 
@@ -33,4 +34,14 @@ export async function getUserConversations(): Promise<User[]> {
     });
 
     return result.chats.participants || [];
+}
+
+export async function getConversation(
+    recipientId: string
+): Promise<Conversation> {
+    const result = await api(`/api/chat/${recipientId}`, {
+        method: "GET"
+    });
+
+    return result.conversation;
 }
