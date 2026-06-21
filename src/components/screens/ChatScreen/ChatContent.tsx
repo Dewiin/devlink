@@ -1,6 +1,10 @@
+import { useState, useEffect } from "react"
 
+// types
+import type { User } from "@/components/types/User"
 
 export function ChatContent() {
+    const [ chats, setChats ] = useState<User[]>([]);
 
     return (
         <div className="flex-1 flex flex-col gap-4

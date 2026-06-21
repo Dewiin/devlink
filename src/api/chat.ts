@@ -3,6 +3,7 @@ import { api } from "./client";
 // types
 import type { Message } from "@/components/types/Message";
 import type { GlobalChat } from "@/components/types/GlobalChat";
+import type { User } from "@/components/types/User";
 
 export async function getGlobalChat(): Promise<GlobalChat> {
     const result = await api(`/api/chat/`, {
@@ -24,4 +25,12 @@ export async function postGlobalChat(
     });
 
     return result.message;
+}
+
+export async function getUserConversations(): Promise<User[]> {
+    const result = await api('/api/users/chats', {
+        method: "GET"
+    });
+
+    return result.chats.participants || [];
 }
