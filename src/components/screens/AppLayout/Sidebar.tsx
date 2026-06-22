@@ -85,7 +85,9 @@ export function Sidebar() {
                 }
                 {!isAuthLoading && user &&
                 <>
-                    <div>
+                    <div
+                    onClick={() => navigate(`/profile/${user.id}`)}
+                    >
                         <CircleUser />
                         <p>{user.displayName}</p>
                     </div>
