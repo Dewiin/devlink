@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 
 // api
 import { getUserConversations } from "@/api/chat";
@@ -14,19 +15,32 @@ import {
     AvatarFallback 
 } from "@/components/ui/avatar";
 
+// contexts
+import { useAuth } from "@/components/contexts/AuthContext";
+
 // icons
 import { Search } from "lucide-react"
 
 // types
-import type { User } from "@/components/types/User";
+import type { Conversation } from "@/components/types/Conversation";
 
 export function ChatSidebar() {
-    const [ conversations, setConversations ] = useState<User[]>([]);
+    const [ conversations, setConversations ] = useState<Conversation[]>([]);
+    const navigate = useNavigate();
+    const { user } = useAuth();
     
     useEffect(() => {
         async function getConversations() {
+            if(!user) return;
+
             const result = await getUserConversations();
-            if(result.length > 0) setConversations(result);
+            if(result) {
+                const filteredConversations = result.map((conversation) => ({
+                    ...conversation,
+                    participants: conversation.participants.filter((participant) => participant.id !== user.id)
+                }));
+                setConversations(filteredConversations);
+            }
         }
 
         getConversations();
@@ -51,20 +65,26 @@ export function ChatSidebar() {
 
             <div className="flex flex-col gap-1 overflow-auto">
                 {conversations.map((conversation) => (
-                    <div
-                    key={conversation.id}
-                    className="flex gap-2 items-center 
-                    text-sm font-medium
-                    rounded-sm cursor-pointer py-2 px-4 
-                    hover:bg-chart-4/75 active:bg-chart-4 duration-100"
-                    >
-                        <Avatar>
-                            <AvatarFallback>
-                                {conversation.displayName.charAt(0)}
-                            </AvatarFallback>
-                        </Avatar>
-                        <p>{conversation.displayName}</p>
-                    </div>
+                    conversation.participants.map((participant) => (
+                        <div
+                        key={participant.id}
+                        className="flex gap-2 items-end 
+                        text-sm font-medium
+                        rounded-sm cursor-pointer py-2 px-4 
+                        hover:bg-chart-4/75 active:bg-chart-4 duration-100"
+                        onClick={() => navigate(`/chats/${participant.id}`)}
+                        >
+                            <Avatar>
+                                <AvatarFallback>
+                                    {participant.displayName.charAt(0)}
+                                </AvatarFallback>
+                            </Avatar>
+                            <div className="flex flex-col">
+                                <p className="text-sm">{participant.displayName}</p>
+                                <p className="w-50 text-xs text-muted-foreground truncate">{conversation.messages[0].content}</p>
+                            </div>
+                        </div>
+                    ))
                 ))}
             </div>
         </div>

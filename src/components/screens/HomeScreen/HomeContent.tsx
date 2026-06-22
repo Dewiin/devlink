@@ -148,7 +148,7 @@ export function HomeContent() {
                                         }
                                         <div
                                             className="text-primary text-sm
-                                            w-full whitespace-pre-wrap"
+                                            w-full whitespace-pre-wrap break-all"
                                             >
                                             {chat.content}
                                         </div>
@@ -160,7 +160,7 @@ export function HomeContent() {
                                         }
                                         <div
                                             className="text-primary text-sm
-                                            w-full whitespace-pre-wrap"
+                                            w-full whitespace-pre-wrap break-all"
                                             >
                                             {chat.content}
                                         </div>

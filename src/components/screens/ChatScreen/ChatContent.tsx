@@ -134,7 +134,7 @@ export function ChatContent() {
                                     {showDate &&
                                     <div className="flex justify-center"> 
                                         <p
-                                        className="text-xs text-muted-foreground "
+                                        className="text-xs text-muted-foreground"
                                         >
                                             {new Date(chat.createdAt).toLocaleDateString(
                                                 undefined,
@@ -164,7 +164,7 @@ export function ChatContent() {
                                                 }
                                                 <div
                                                     className="text-primary text-sm
-                                                    w-full whitespace-pre-wrap"
+                                                    w-full whitespace-pre-wrap break-all"
                                                     >
                                                     {chat.content}
                                                 </div>
@@ -176,7 +176,7 @@ export function ChatContent() {
                                                 }
                                                 <div
                                                     className="text-primary text-sm
-                                                    w-full whitespace-pre-wrap"
+                                                    w-full whitespace-pre-wrap break-all"
                                                     >
                                                     {chat.content}
                                                 </div>
