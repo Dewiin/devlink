@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
 
 // api
-import { getAllUsers } from "@/api/user"
+import { getAllUsers, searchUser } from "@/api/user"
 
 // components
 import { 
@@ -34,6 +34,11 @@ export function HomeSidebar() {
         fetchGlobalUsers();
     }, []);
 
+    async function handleSearch(data: string) {
+        const result = await searchUser(data);
+        if(result) setUsers(result);
+    }
+
     return (
         <div 
         className="w-xs 
@@ -45,6 +50,7 @@ export function HomeSidebar() {
             <InputGroup>
                 <InputGroupInput 
                 placeholder="Search for a user"
+                onChange={(e) => handleSearch(e.target.value)}
                 />
                 <InputGroupAddon>
                     <Search />

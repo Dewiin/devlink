@@ -20,3 +20,13 @@ export async function getProfile(
 
     return result.profile;
 }
+
+export async function searchUser(
+    data: string,
+): Promise<User[]> {
+    const result = await api(`/api/users/search?name=${data}`, {
+        method: "GET"
+    });
+
+    return result.users;
+}
