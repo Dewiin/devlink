@@ -104,131 +104,132 @@ export function ChatContent() {
         <div className="flex-1
         bg-accent rounded-sm 
         m-2 ml-0 p-4">
-            {conversation && user &&  
-                <div className="h-full flex flex-col gap-4">
-                    {conversation.participants.map((participant) => {
-                        if(participant.email === user.email) return;
-                        return (
-                            <p className="text-2xl font-bold">{participant.displayName}</p>
+            <div className="h-full flex flex-col gap-4">
+                {!isLoading && user && conversation && conversation.participants.map((participant) => {
+                    if(participant.email === user.email) return;
+                    return (
+                        <p className="text-2xl font-bold">{participant.displayName}</p>
+                    )
+                })}
+                {isLoading && <p className="text-2xl font-bold">
+                    ...
+                </p>}
+                <Separator/>    
+
+                {/* Chat Content */}
+                <div className="flex-1 flex flex-col overflow-auto">
+                    {!isLoading && user && conversation && conversation.messages.map((chat, index) => {
+                        const showDate = isNewDay(
+                            chat.createdAt,
+                            conversation.messages[index-1]?.createdAt
                         )
-                    })}
-                    <Separator/>    
 
-                    {/* Chat Content */}
-                    <div className="flex-1 flex flex-col overflow-auto">
-                        {conversation.messages.map((chat, index) => {
-                            const showDate = isNewDay(
-                                chat.createdAt,
-                                conversation.messages[index-1]?.createdAt
-                            )
+                        const showAvatar = isNewSender(
+                            chat,
+                            conversation.messages[index-1]
+                        )
 
-                            const showAvatar = isNewSender(
-                                chat,
-                                conversation.messages[index-1]
-                            )
+                        const currentUserMessage = chat.sender.id === user.id;
 
-                            const currentUserMessage = chat.sender.id === user?.id;
-
-                            return (
-                                <div key={chat.id}>
-                                    {showDate &&
-                                    <div className="flex justify-center"> 
-                                        <p
-                                        className="text-xs text-muted-foreground"
-                                        >
-                                            {new Date(chat.createdAt).toLocaleDateString(
-                                                undefined,
-                                                {
-                                                    year: "numeric",
-                                                    month: "long",
-                                                    day: "numeric"
-                                                }
-                                            )}
-                                        </p>
-                                    </div>
-                                    }
-                                    <div className={`flex gap-2 items-end p-1 ${showAvatar && "mt-4"} 
-                                    hover:bg-ring/25 duration-50 rounded-xs`}>
-                                        {!currentUserMessage ? 
-                                        <>
-                                            {showAvatar ?
-                                            <Avatar size="lg">
-                                                <AvatarFallback>{chat.sender.displayName.charAt(0)}</AvatarFallback>
-                                            </Avatar>
-                                            :
-                                            <div className="w-10" />
+                        return (
+                            <div key={chat.id}>
+                                {showDate &&
+                                <div className="flex justify-center"> 
+                                    <p
+                                    className="text-xs text-muted-foreground"
+                                    >
+                                        {new Date(chat.createdAt).toLocaleDateString(
+                                            undefined,
+                                            {
+                                                year: "numeric",
+                                                month: "long",
+                                                day: "numeric"
                                             }
-                                            <div className="flex-1 flex flex-col gap-1">
-                                                {showAvatar &&
-                                                <p className="text-xs">{chat.sender.displayName}</p>
-                                                }
-                                                <div
-                                                    className="text-primary text-sm
-                                                    w-full whitespace-pre-wrap break-all"
-                                                    >
-                                                    {chat.content}
-                                                </div>
-                                            </div>
-                                        </> : <>
-                                            <div className="flex-1 flex flex-col gap-1 text-right">
-                                                {showAvatar &&
-                                                <p className="text-xs">{chat.sender.displayName}</p>
-                                                }
-                                                <div
-                                                    className="text-primary text-sm
-                                                    w-full whitespace-pre-wrap break-all"
-                                                    >
-                                                    {chat.content}
-                                                </div>
-                                            </div>
-                                            {showAvatar ?
-                                            <Avatar size="lg">
-                                                <AvatarFallback>{chat.sender.displayName.charAt(0)}</AvatarFallback>
-                                            </Avatar>
-                                            :
-                                            <div className="w-10" />
-                                            }
-                                        </>
-                                        }
-                                    </div>
+                                        )}
+                                    </p>
                                 </div>
-                            )})}
-                        <div ref={bottomRef} />
-                    </div>
-
-                    {/* Textarea */}
-                    <form onSubmit={form.handleSubmit(handleSubmit)}>
-                        <Controller 
-                        name="content"
-                        control={form.control}
-                        disabled={!user || isLoading}
-                        render={({field, fieldState}) => (
-                            <Field>
-                                <InputGroup>
-                                    <InputGroupTextarea
-                                    {...field}
-                                    aria-invalid={fieldState.invalid}
-                                    placeholder={`${user ? "Write a message..." : "Sign in to chat."}`} 
-                                    />
-                                    <InputGroupAddon align="block-end" className="cursor-default">
-                                        <p>{field.value.length}/500</p>
-                                        <InputGroupButton 
-                                        className="ml-auto cursor-pointer hover:bg-muted-foreground/25"
-                                        disabled={!user || isLoading}
-                                        type="submit"
-                                        size="icon-sm"
-                                        >
-                                            <SendHorizonal className="text-muted-foreground" />
-                                        </InputGroupButton>
-                                    </InputGroupAddon>
-                                </InputGroup>
-                                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                            </Field>
-                        )}
-                        />
-                    </form>
+                                }
+                                <div className={`flex gap-2 items-end p-1 ${showAvatar && "mt-4"} 
+                                hover:bg-ring/25 duration-50 rounded-xs`}>
+                                    {!currentUserMessage ? 
+                                    <>
+                                        {showAvatar ?
+                                        <Avatar size="lg">
+                                            <AvatarFallback>{chat.sender.displayName.charAt(0)}</AvatarFallback>
+                                        </Avatar>
+                                        :
+                                        <div className="w-10" />
+                                        }
+                                        <div className="flex-1 flex flex-col gap-1">
+                                            {showAvatar &&
+                                            <p className="text-xs">{chat.sender.displayName}</p>
+                                            }
+                                            <div
+                                                className="text-primary text-sm
+                                                w-full whitespace-pre-wrap break-all"
+                                                >
+                                                {chat.content}
+                                            </div>
+                                        </div>
+                                    </> : <>
+                                        <div className="flex-1 flex flex-col gap-1 text-right">
+                                            {showAvatar &&
+                                            <p className="text-xs">{chat.sender.displayName}</p>
+                                            }
+                                            <div
+                                                className="text-primary text-sm
+                                                w-full whitespace-pre-wrap break-all"
+                                                >
+                                                {chat.content}
+                                            </div>
+                                        </div>
+                                        {showAvatar ?
+                                        <Avatar size="lg">
+                                            <AvatarFallback>{chat.sender.displayName.charAt(0)}</AvatarFallback>
+                                        </Avatar>
+                                        :
+                                        <div className="w-10" />
+                                        }
+                                    </>
+                                    }
+                                </div>
+                            </div>
+                        )})}
+                    <div ref={bottomRef} />
                 </div>
-            }
+
+                {/* Textarea */}
+                <form onSubmit={form.handleSubmit(handleSubmit)}>
+                    <Controller 
+                    name="content"
+                    control={form.control}
+                    disabled={!user || isLoading}
+                    render={({field, fieldState}) => (
+                        <Field>
+                            <InputGroup>
+                                <InputGroupTextarea
+                                {...field}
+                                aria-invalid={fieldState.invalid}
+                                placeholder={`${user ? "Write a message..." : "Sign in to chat."}`} 
+                                />
+                                <InputGroupAddon align="block-end" className="cursor-default">
+                                    <p>{field.value.length}/500</p>
+                                    <InputGroupButton 
+                                    className="ml-auto cursor-pointer hover:bg-muted-foreground/25"
+                                    disabled={!user || isLoading}
+                                    type="submit"
+                                    size="icon-sm"
+                                    >
+                                        <SendHorizonal className="text-muted-foreground" />
+                                    </InputGroupButton>
+                                </InputGroupAddon>
+                            </InputGroup>
+                            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                        </Field>
+                    )}
+                    />
+                </form>
+            </div>
         </div>
     )
 }
