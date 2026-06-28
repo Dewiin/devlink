@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import { useForm, Controller } from "react-hook-form"
+import { useNavigate } from "react-router"
 import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod"
 
@@ -45,6 +46,7 @@ export function HomeContent() {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const bottomRef = useRef<HTMLDivElement>(null);
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     const form = useForm<z.infer<typeof messageSchema>>({
         resolver: zodResolver(messageSchema),
@@ -136,7 +138,11 @@ export function HomeContent() {
                                 {!currentUserMessage ? 
                                 <>
                                     {showAvatar ?
-                                    <Avatar size="lg">
+                                    <Avatar 
+                                    size="lg"
+                                    className="cursor-pointer"
+                                    onClick={() => navigate(`/profile/${chat.sender.id}`)}
+                                    >
                                         <AvatarFallback>{chat.sender.displayName.charAt(0)}</AvatarFallback>
                                     </Avatar>
                                     :
@@ -144,7 +150,12 @@ export function HomeContent() {
                                     }
                                     <div className="flex-1 flex flex-col gap-1">
                                         {showAvatar &&
-                                        <p className="text-xs">{chat.sender.displayName}</p>
+                                        <p 
+                                        className="text-xs hover:underline cursor-pointer"
+                                        onClick={() => navigate(`/profile/${chat.sender.id}`)}
+                                        >
+                                            {chat.sender.displayName}
+                                        </p>
                                         }
                                         <div
                                             className="text-primary text-sm
