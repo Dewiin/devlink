@@ -23,20 +23,26 @@ import type { User } from "@/components/types/User"
 
 export function HomeSidebar() {
     const [ users, setUsers ] = useState<User[]>([]);
+    const [ filteredUsers, setFilteredUsers ] = useState<User[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchGlobalUsers() {
             const result = await getAllUsers();
-            if(result) setUsers(result);
+            if(result) {
+                setUsers(result);
+                setFilteredUsers(result);
+            }
         }
 
         fetchGlobalUsers();
     }, []);
 
-    async function handleSearch(data: string) {
-        const result = await searchUser(data);
-        if(result) setUsers(result);
+    function handleSearch(data: string) {
+        const filtered = users.filter((user) => 
+            user.displayName.toLocaleLowerCase().includes(data.toLocaleLowerCase())
+        );
+        setFilteredUsers(filtered);
     }
 
     return (
@@ -58,7 +64,7 @@ export function HomeSidebar() {
             </InputGroup>
 
             <div className="flex flex-col overflow-auto">
-                {users.map((user) => (
+                {filteredUsers.map((user) => (
                     <div
                     key={user.id}
                     className="flex gap-2 items-center 

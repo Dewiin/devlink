@@ -49,13 +49,13 @@ export function ChatSidebar() {
     }, []);
 
     async function handleSearch(data: string) {
-        const filteredConversations = conversations.map((conversation) => ({
+        const filtered = conversations.map((conversation) => ({
             ...conversation,
             participants: conversation.participants.filter((participant) => 
                 participant.displayName.toLocaleLowerCase().includes(data.toLocaleLowerCase())
             )
         }));
-        setFilteredConversations(filteredConversations);
+        setFilteredConversations(filtered);
     }
 
     return (
