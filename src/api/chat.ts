@@ -32,8 +32,7 @@ export async function getUserConversations(): Promise<Conversation[]> {
         method: "GET"
     });
 
-    console.log(result);
-    return result.chats;
+    return result.conversations;
 }
 
 export async function getConversation(

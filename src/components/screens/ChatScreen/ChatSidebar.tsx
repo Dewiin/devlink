@@ -26,6 +26,7 @@ import type { Conversation } from "@/components/types/Conversation";
 
 export function ChatSidebar() {
     const [ conversations, setConversations ] = useState<Conversation[]>([]);
+    const [ filteredConversations, setFilteredConversations ] = useState<Conversation[]>([]);
     const navigate = useNavigate();
     const { user } = useAuth();
     
@@ -40,11 +41,22 @@ export function ChatSidebar() {
                     participants: conversation.participants.filter((participant) => participant.id !== user.id)
                 }));
                 setConversations(filteredConversations);
+                setFilteredConversations(filteredConversations);
             }
         }
 
         getConversations();
     }, []);
+
+    async function handleSearch(data: string) {
+        const filteredConversations = conversations.map((conversation) => ({
+            ...conversation,
+            participants: conversation.participants.filter((participant) => 
+                participant.displayName.toLocaleLowerCase().includes(data.toLocaleLowerCase())
+            )
+        }));
+        setFilteredConversations(filteredConversations);
+    }
 
     return (
         <div 
@@ -57,6 +69,7 @@ export function ChatSidebar() {
             <InputGroup>
                 <InputGroupInput 
                 placeholder="Search for a chat"
+                onChange={(e) => handleSearch(e.target.value)}
                 />
                 <InputGroupAddon>
                     <Search />
@@ -64,7 +77,7 @@ export function ChatSidebar() {
             </InputGroup>
 
             <div className="flex flex-col gap-1 overflow-auto">
-                {conversations.map((conversation) => (
+                {filteredConversations.map((conversation) => (
                     conversation.participants.map((participant) => (
                         <div
                         key={participant.id}
