@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import { useForm, Controller } from "react-hook-form";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 
@@ -45,8 +45,10 @@ export function ChatContent() {
     const [ conversation, setConversation ] = useState<Conversation|null>(null);
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ recipient, setRecipient ] = useState<User>();
+
     const bottomRef = useRef<HTMLDivElement>(null);
     const { recipientId } = useParams();
+    const navigate = useNavigate();
     const { user } = useAuth();
 
     const form = useForm<z.infer<typeof messageSchema>>({
@@ -162,7 +164,11 @@ export function ChatContent() {
                                     {!currentUserMessage ? 
                                     <>
                                         {showAvatar ?
-                                        <Avatar size="lg">
+                                        <Avatar 
+                                        size="lg"
+                                        className="cursor-pointer"
+                                        onClick={() => navigate(`/profile/${chat.sender.id}`)}
+                                        >
                                             <AvatarFallback>{chat.sender.displayName.charAt(0)}</AvatarFallback>
                                         </Avatar>
                                         :
@@ -170,7 +176,12 @@ export function ChatContent() {
                                         }
                                         <div className="flex-1 flex flex-col gap-1">
                                             {showAvatar &&
-                                            <p className="text-xs">{chat.sender.displayName}</p>
+                                            <p 
+                                            className="text-xs cursor-pointer hover:underline"
+                                            onClick={() => navigate(`/profile/${chat.sender.id}`)}
+                                            >
+                                                {chat.sender.displayName}
+                                            </p>
                                             }
                                             <div
                                                 className="text-primary text-sm
@@ -182,7 +193,12 @@ export function ChatContent() {
                                     </> : <>
                                         <div className="flex-1 flex flex-col gap-1 text-right">
                                             {showAvatar &&
-                                            <p className="text-xs">{chat.sender.displayName}</p>
+                                            <p 
+                                            className="text-xs cursor-pointer hover:underline"
+                                            onClick={() => navigate(`/profile/${chat.sender.id}`)}
+                                            >
+                                                {chat.sender.displayName}
+                                            </p>
                                             }
                                             <div
                                                 className="text-primary text-sm
@@ -192,7 +208,11 @@ export function ChatContent() {
                                             </div>
                                         </div>
                                         {showAvatar ?
-                                        <Avatar size="lg">
+                                        <Avatar 
+                                        size="lg"
+                                        className="cursor-pointer"
+                                        onClick={() => navigate(`/profile/${chat.sender.id}`)}
+                                        >
                                             <AvatarFallback>{chat.sender.displayName.charAt(0)}</AvatarFallback>
                                         </Avatar>
                                         :
