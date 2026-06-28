@@ -39,10 +39,12 @@ import { messageSchema } from "@/components/schemas/chat";
 
 // types
 import type { Conversation } from "@/components/types/Conversation"
+import type { User } from "@/components/types/User";
 
 export function ChatContent() {
     const [ conversation, setConversation ] = useState<Conversation|null>(null);
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
+    const [ recipient, setRecipient ] = useState<User>();
     const bottomRef = useRef<HTMLDivElement>(null);
     const { recipientId } = useParams();
     const { user } = useAuth();
@@ -61,7 +63,12 @@ export function ChatContent() {
             setIsLoading(true);
             try {
                 const result = await getConversation(recipientId);
-                if(result) setConversation(result);
+                if(result) {
+                    setConversation(result);
+                    setRecipient(result.participants.find(
+                        participant => participant.id === recipientId
+                    ));
+                }
             } finally {
                 setIsLoading(false);
             }
@@ -105,15 +112,16 @@ export function ChatContent() {
         bg-accent rounded-sm 
         m-2 ml-0 p-4">
             <div className="h-full flex flex-col gap-4">
-                {!isLoading && user && conversation && conversation.participants.map((participant) => {
-                    if(participant.email === user.email) return;
-                    return (
-                        <p className="text-2xl font-bold">{participant.displayName}</p>
-                    )
-                })}
-                {isLoading && <p className="text-2xl font-bold">
+                {!isLoading && recipient &&
+                <p className="text-2xl font-bold">
+                    {recipient.displayName}
+                </p>
+                }
+                {isLoading && 
+                <p className="text-2xl font-bold">
                     ...
-                </p>}
+                </p>
+                }
                 <Separator/>    
 
                 {/* Chat Content */}
@@ -210,13 +218,13 @@ export function ChatContent() {
                                 <InputGroupTextarea
                                 {...field}
                                 aria-invalid={fieldState.invalid}
+                                disabled={!conversation || !user || isLoading}
                                 placeholder={`${user ? "Write a message..." : "Sign in to chat."}`} 
                                 />
                                 <InputGroupAddon align="block-end" className="cursor-default">
                                     <p>{field.value.length}/500</p>
                                     <InputGroupButton 
                                     className="ml-auto cursor-pointer hover:bg-muted-foreground/25"
-                                    disabled={!user || isLoading}
                                     type="submit"
                                     size="icon-sm"
                                     >
