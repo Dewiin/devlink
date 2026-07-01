@@ -27,6 +27,7 @@ import { Separator } from "@/components/ui/separator"
 
 // contexts
 import { useAuth } from "@/components/contexts/AuthContext"
+import { useUI } from "@/components/contexts/UIContext"
 
 // helpers
 import { isNewDay } from "@/helpers/isNewDay"
@@ -46,6 +47,7 @@ export function HomeContent() {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const bottomRef = useRef<HTMLDivElement>(null);
     const { user } = useAuth();
+    const { isMobile } = useUI();
     const navigate = useNavigate();
 
     const form = useForm<z.infer<typeof messageSchema>>({
@@ -94,9 +96,8 @@ export function HomeContent() {
     }
 
     return (
-        <div className="flex-1 flex flex-col gap-4
-        bg-accent rounded-sm 
-        m-2 ml-0 p-4">
+        <div className={`flex flex-col flex-1 gap-4
+        bg-accent rounded-sm m-2 p-4`}>
             <p className="text-2xl font-bold">Global Chat</p>
             <Separator/>
 

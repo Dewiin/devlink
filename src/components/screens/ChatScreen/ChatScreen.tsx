@@ -4,7 +4,7 @@ import { ChatContent } from "./ChatContent"
 
 export function ChatScreen() {
     return (
-        <div className="w-full h-full flex">
+        <div className="w-full flex-1 flex">
             <ChatSidebar />
             <ChatContent />
         </div>

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
 
 // api
-import { getAllUsers, searchUser } from "@/api/user"
+import { getAllUsers } from "@/api/user"
 
 // components
 import { 
@@ -47,8 +47,8 @@ export function HomeSidebar() {
 
     return (
         <div 
-        className="w-xs 
-        bg-accent rounded-sm m-2 p-4
+        className="w-3xs
+        bg-accent rounded-sm m-2 mr-0 p-4
         flex flex-col gap-4"
         >   
             <p className="text-2xl font-bold">Users</p>

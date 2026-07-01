@@ -2,15 +2,21 @@ import { Outlet } from "react-router"
 
 // components
 import { Sidebar } from "./Sidebar"
+import { MobileSidebar } from "./MobileSidebar"
+
+// contexts
+import { useUI } from "@/components/contexts/UIContext"
 
 export function AppLayout() {
-    return (
-        <div className="h-full flex overflow-hidden">
-            <Sidebar />
+    const { isMobile } = useUI();
 
-            <div className="relative flex-1">
-                <Outlet />
-            </div>
+    return (
+        <div className={`w-full h-screen flex ${isMobile ? "flex-col" : "flex-row"}`}>
+            {!isMobile && <Sidebar />}
+
+            <Outlet />
+
+            {isMobile && <MobileSidebar />}
         </div>
     )
 }

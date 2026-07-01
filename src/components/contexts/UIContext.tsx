@@ -15,13 +15,18 @@ import type { Sonner } from "@/components/types/Sonner";
 type UIContextProps = {
     sonner: Sonner,
     setSonner: Dispatch<SetStateAction<Sonner>>,
+    isMobile: boolean,
+    setIsMobile: Dispatch<SetStateAction<boolean>>
 }
 const UIContext = createContext<UIContextProps>({
     sonner: { type: undefined },
-    setSonner: () => {}
+    setSonner: () => {},
+    isMobile: false,
+    setIsMobile: () => {}
 });
 export function UIProvider({ children }: { children: ReactNode}) {
     const [ sonner, setSonner ] = useState<Sonner>({ type: undefined });
+    const [ isMobile, setIsMobile ] = useState<boolean>(false);
 
     useEffect(() => {
         const type = sonner.type;
@@ -34,9 +39,22 @@ export function UIProvider({ children }: { children: ReactNode}) {
         }
     }, [ sonner ]);
 
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => {
+            removeEventListener("resize", handleResize);
+        }
+    }, []);
+
     const values = {
         sonner,
-        setSonner
+        setSonner,
+        isMobile,
+        setIsMobile
     }
 
     return (
