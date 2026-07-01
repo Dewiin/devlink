@@ -9,7 +9,7 @@ export function HomeScreen() {
     const { isMobile } = useUI();
     
     return (
-        <div className="flex h-full min-h-0">
+        <div className="flex h-full flex-1 min-h-0">
             {!isMobile && <HomeSidebar />}
             <HomeContent />
         </div>
