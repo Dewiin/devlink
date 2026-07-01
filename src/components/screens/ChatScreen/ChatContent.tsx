@@ -32,7 +32,7 @@ import { isNewDay } from "@/helpers/isNewDay";
 import { isNewSender } from "@/helpers/isNewSender";
 
 // icons
-import { SendHorizonal } from "lucide-react";
+import { ChevronLeft, MoveLeft, SendHorizonal } from "lucide-react";
 
 // schemas
 import { messageSchema } from "@/components/schemas/chat";
@@ -112,18 +112,24 @@ export function ChatContent() {
     return (
         <div className="flex-1
         bg-accent rounded-sm 
-        m-2 ml-0 p-4">
+        m-2 p-4">
             <div className="h-full flex flex-col gap-4">
-                {!isLoading && recipient &&
-                <p className="text-2xl font-bold">
-                    {recipient.displayName}
-                </p>
-                }
-                {isLoading && 
-                <p className="text-2xl font-bold">
-                    ...
-                </p>
-                }
+                <div className="flex gap-4 items-center">
+                    <ChevronLeft 
+                    onClick={() => navigate("/chats")}
+                    />
+
+                    {!isLoading && recipient &&
+                    <p className="text-2xl font-bold">
+                        {recipient.displayName}
+                    </p>
+                    }
+                    {isLoading && 
+                    <p className="text-2xl font-bold">
+                        ...
+                    </p>
+                    }
+                </div>
                 <Separator/>    
 
                 {/* Chat Content */}

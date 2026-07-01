@@ -43,6 +43,7 @@ export function UIProvider({ children }: { children: ReactNode}) {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 768);
         };
+        handleResize();
 
         window.addEventListener("resize", handleResize);
         return () => {

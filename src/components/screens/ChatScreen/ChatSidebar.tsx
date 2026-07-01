@@ -17,6 +17,7 @@ import {
 
 // contexts
 import { useAuth } from "@/components/contexts/AuthContext";
+import { useUI } from "@/components/contexts/UIContext";
 
 // icons
 import { Search } from "lucide-react"
@@ -29,6 +30,7 @@ export function ChatSidebar() {
     const [ filteredConversations, setFilteredConversations ] = useState<Conversation[]>([]);
     const navigate = useNavigate();
     const { user } = useAuth();
+    const { isMobile } = useUI();
     
     useEffect(() => {
         async function getConversations() {
@@ -60,9 +62,9 @@ export function ChatSidebar() {
 
     return (
         <div 
-        className="w-xs 
-        bg-accent rounded-sm m-2 p-4
-        flex flex-col gap-4"
+        className={`${isMobile ? "w-full" : "w-3xs"} 
+        bg-accent rounded-sm m-2 ${!isMobile && "mr-0"} p-4
+        flex flex-col gap-4`}
         >   
             <p className="text-2xl font-bold">Chats</p>
 
