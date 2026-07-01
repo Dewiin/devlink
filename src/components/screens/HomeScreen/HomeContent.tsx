@@ -27,7 +27,6 @@ import { Separator } from "@/components/ui/separator"
 
 // contexts
 import { useAuth } from "@/components/contexts/AuthContext"
-import { useUI } from "@/components/contexts/UIContext"
 
 // helpers
 import { isNewDay } from "@/helpers/isNewDay"
@@ -47,7 +46,6 @@ export function HomeContent() {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const bottomRef = useRef<HTMLDivElement>(null);
     const { user } = useAuth();
-    const { isMobile } = useUI();
     const navigate = useNavigate();
 
     const form = useForm<z.infer<typeof messageSchema>>({

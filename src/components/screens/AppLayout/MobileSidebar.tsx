@@ -4,8 +4,6 @@ import { useLocation, useNavigate } from "react-router"
 import { logout } from "@/api/auth";
 
 // components
-import { Separator } from "@/components/ui/separator"
-import { Spinner } from "@/components/ui/spinner";
 import { toast } from "sonner";
 
 // contexts
@@ -22,7 +20,7 @@ import {
 } from "lucide-react"
 
 export function MobileSidebar() {
-    const { user, setUser, isAuthLoading } = useAuth();
+    const { user, setUser } = useAuth();
     const { setSonner } = useUI();
     const location = useLocation();
     const navigate = useNavigate();

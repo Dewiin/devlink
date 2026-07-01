@@ -8,7 +8,7 @@ export function ProfileSidebar() {
 
     return (
         <div className="w-xs 
-        bg-accent rounded-sm m-2 p-4">
+        bg-accent rounded-sm m-2 mr-0 p-4">
             <div 
             className="flex gap-2 items-center cursor-pointer w-fit"
             onClick={() => navigate(-1)}
