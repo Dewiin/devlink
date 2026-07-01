@@ -102,7 +102,7 @@ export function LoginScreen() {
             </div>
             
             <div className="flex flex-col gap-2 
-            max-w-lg md:w-md w-sm">
+            max-w-lg md:w-md w-xs">
                 <div className="flex gap-2 items-end">
                     <img
                     src="/src/assets/logo.png"

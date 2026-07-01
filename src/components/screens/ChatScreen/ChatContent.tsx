@@ -26,13 +26,14 @@ import { Separator } from "@/components/ui/separator";
 
 // contexts
 import { useAuth } from "@/components/contexts/AuthContext";
+import { useUI } from "@/components/contexts/UIContext";
 
 // helpers
 import { isNewDay } from "@/helpers/isNewDay";
 import { isNewSender } from "@/helpers/isNewSender";
 
 // icons
-import { ChevronLeft, MoveLeft, SendHorizonal } from "lucide-react";
+import { ChevronLeft, SendHorizonal } from "lucide-react";
 
 // schemas
 import { messageSchema } from "@/components/schemas/chat";
@@ -50,6 +51,7 @@ export function ChatContent() {
     const { recipientId } = useParams();
     const navigate = useNavigate();
     const { user } = useAuth();
+    const { isMobile } = useUI();
 
     const form = useForm<z.infer<typeof messageSchema>>({
         resolver: zodResolver(messageSchema),
@@ -115,9 +117,11 @@ export function ChatContent() {
         m-2 p-4">
             <div className="h-full flex flex-col gap-4">
                 <div className="flex gap-4 items-center">
+                    {isMobile && 
                     <ChevronLeft 
                     onClick={() => navigate("/chats")}
                     />
+                    }
 
                     {!isLoading && recipient &&
                     <p className="text-2xl font-bold">
