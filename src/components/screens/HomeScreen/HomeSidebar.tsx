@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
+import { formatDistanceToNow } from "date-fns"
 
 // api
 import { getAllUsers } from "@/api/user"
@@ -78,7 +79,10 @@ export function HomeSidebar() {
                                 {user.displayName.charAt(0)}
                             </AvatarFallback>
                         </Avatar>
-                        <p>{user.displayName}</p>
+                        <div className="flex flex-col">
+                            <p className="text-sm">{user.displayName}</p>
+                            <p className="w-50 text-xs text-muted-foreground truncate"> joined {formatDistanceToNow(user.createdAt)} ago</p>
+                        </div>
                     </div>
                 ))}
             </div>
