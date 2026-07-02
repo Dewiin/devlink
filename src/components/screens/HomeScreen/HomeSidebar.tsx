@@ -16,6 +16,9 @@ import {
     AvatarFallback 
 } from "@/components/ui/avatar"
 
+// contexts
+import { useUI } from "@/components/contexts/UIContext"
+
 // icons
 import { Search } from "lucide-react"
 
@@ -25,6 +28,7 @@ import type { User } from "@/components/types/User"
 export function HomeSidebar() {
     const [ users, setUsers ] = useState<User[]>([]);
     const [ filteredUsers, setFilteredUsers ] = useState<User[]>([]);
+    const { isMobile } = useUI();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -48,9 +52,9 @@ export function HomeSidebar() {
 
     return (
         <div 
-        className="w-xs
-        bg-accent rounded-sm m-2 mr-0 p-4
-        flex flex-col gap-4"
+        className={`${isMobile ? "w-full" : "w-xs"} 
+        bg-accent rounded-sm m-2 ${!isMobile && "mr-0"} p-4
+        flex flex-col gap-4`}
         >   
             <p className="text-2xl font-bold">Users</p>
 

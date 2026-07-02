@@ -1,9 +1,11 @@
 import { useLocation, useNavigate } from "react-router"
+import { useState } from "react";
 
 // api
 import { logout } from "@/api/auth";
 
 // components
+import { HomeSidebar } from "../HomeScreen/HomeSidebar";
 import { toast } from "sonner";
 
 // contexts
@@ -17,6 +19,7 @@ import {
     CircleUser, 
     LogOut, 
     LogIn,
+    UserSearchIcon
 } from "lucide-react"
 
 export function MobileSidebar() {
@@ -24,8 +27,7 @@ export function MobileSidebar() {
     const { setSonner } = useUI();
     const location = useLocation();
     const navigate = useNavigate();
-
-    const active = location.pathname.split("/")[1]; 
+    const [ active, setActive ] = useState<string>(location.pathname.split("/")[1]);
 
     function handleLogout() {
         toast.promise(async () => {
@@ -40,17 +42,23 @@ export function MobileSidebar() {
         <div className="w-full h-fit
         flex justify-between
         bg-sidebar text-sm font-semibold select-none
-        *:flex-1 *:p-4 *:*:m-auto *:rounded-xs">
+        *:flex-1 *:p-4 *:*:m-auto *:rounded-xs *:duration-150">
             <div
             className={`${active === "" && "bg-accent"}`}
-            onClick={() => navigate("/")}
+            onClick={() => {
+                setActive("");
+                navigate("/");
+            }}
             >
                 <Globe />
             </div>
             
             <div 
             className={`${active === "chats" && "bg-accent"}`}
-            onClick={() => navigate("/chats")}
+            onClick={() => {
+                setActive("chats");
+                navigate("/chats");
+            }}
             >
                 <MessageSquare />
             </div>
@@ -58,16 +66,35 @@ export function MobileSidebar() {
             {user && 
             <div 
             className={`${active === "profile" && "bg-accent"}`}
-            onClick={() => navigate(`/profile/${user.id}`)}
+            onClick={() => {
+                setActive("profile");
+                navigate(`/profile/${user.id}`)
+            }}
             >
                 <CircleUser />
             </div>
             }
 
+            <div 
+            className={`${active === "searchUser" && "bg-accent"}`}
+            onClick={() => {
+                setActive("searchUser");
+                navigate({
+                    pathname: '/',
+                    search: "?view=search"
+                })
+            }}
+            >
+                <UserSearchIcon />
+            </div>
+
             {!user && 
             <div 
             className={`${active === "login" && "bg-accent"}`}
-            onClick={() => navigate("/login")}
+            onClick={() => {
+                setActive("login");
+                navigate("/login");
+            }}
             >
                 <LogIn />
             </div>
