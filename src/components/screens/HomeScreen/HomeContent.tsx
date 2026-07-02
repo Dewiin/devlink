@@ -117,7 +117,7 @@ export function HomeContent() {
                     return (
                         <div key={chat.id}>
                             {showDate &&
-                            <div className="flex justify-center"> 
+                            <div className="flex justify-center my-4"> 
                                 <p
                                 className="text-xs text-muted-foreground "
                                 >

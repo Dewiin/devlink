@@ -90,24 +90,19 @@ export function ChatContent() {
     async function handleSubmit(data: z.infer<typeof messageSchema>) {
         if(!conversation) return;
 
-        setIsLoading(true);
-        try {
-            const result = await postChat(data, conversation.id);
+        const result = await postChat(data, conversation.id);
 
-            if(result) {
-                setConversation((prev) => {
-                    if(!prev) return prev;
-                    return {
-                        ...prev,
-                        messages: [
-                            ...prev.messages, result
-                        ]
-                    }
-                });
-                form.reset();
-            }
-        } finally {
-            setIsLoading(false);
+        if(result) {
+            setConversation((prev) => {
+                if(!prev) return prev;
+                return {
+                    ...prev,
+                    messages: [
+                        ...prev.messages, result
+                    ]
+                }
+            });
+            form.reset();
         }
     }
 
@@ -154,7 +149,7 @@ export function ChatContent() {
                         return (
                             <div key={chat.id}>
                                 {showDate &&
-                                <div className="flex justify-center"> 
+                                <div className="flex justify-center my-4"> 
                                     <p
                                     className="text-xs text-muted-foreground"
                                     >
@@ -242,13 +237,13 @@ export function ChatContent() {
                     name="content"
                     control={form.control}
                     disabled={!user || isLoading}
-                    render={({field, fieldState}) => (
+                    render={({field, formState, fieldState}) => (
                         <Field>
                             <InputGroup>
                                 <InputGroupTextarea
                                 {...field}
                                 aria-invalid={fieldState.invalid}
-                                disabled={!conversation || !user || isLoading}
+                                disabled={!conversation || !user || isLoading || formState.isSubmitting}
                                 placeholder={`${user ? "Write a message..." : "Sign in to chat."}`} 
                                 />
                                 <InputGroupAddon align="block-end" className="cursor-default">

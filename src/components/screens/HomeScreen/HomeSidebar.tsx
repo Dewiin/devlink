@@ -47,7 +47,7 @@ export function HomeSidebar() {
 
     return (
         <div 
-        className="w-3xs
+        className="w-xs
         bg-accent rounded-sm m-2 mr-0 p-4
         flex flex-col gap-4"
         >   

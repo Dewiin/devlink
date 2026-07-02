@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState, useEffect } from "react"
 import { useParams } from "react-router"
 
 // components
@@ -9,18 +9,21 @@ import { ChatContent } from "./ChatContent"
 import { useUI } from "@/components/contexts/UIContext"
 
 export function ChatScreen() {
-    const [ showSidebar, setShowSidebar ] = useState(false);
+    const [ showSidebar, setShowSidebar ] = useState<boolean>(false);
     const { recipientId } = useParams();
     const { isMobile } = useUI();
 
     useEffect(() => {
-        if(!recipientId && isMobile) setShowSidebar(true);
-        else setShowSidebar(false);
-    }, [recipientId]);
+        if (!recipientId && isMobile) {
+            setShowSidebar(true);
+        } else {
+            setShowSidebar(false);
+        }
+    }, [recipientId, isMobile]);
 
     return (
-        <div className="w-full flex-1 flex">
-            {showSidebar && <ChatSidebar />}
+        <div className="flex h-full flex-1 min-h-0">
+            {(showSidebar || !isMobile) && <ChatSidebar />}
             {!showSidebar && <ChatContent />}
         </div>
     )
