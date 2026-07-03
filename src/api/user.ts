@@ -1,7 +1,9 @@
 import { api } from "./client";
+import type { Dispatch, SetStateAction } from "react";
 
 // types
 import type { User } from "@/components/types/User";
+import type { Sonner } from "@/components/types/Sonner";
 
 export async function getAllUsers(): Promise<User[]> {
     const result = await api('/api/users', {
@@ -19,4 +21,19 @@ export async function getProfile(
     });
 
     return result.profile;
+}
+
+export async function updateAvatar(
+    file: File,
+    setSonner: Dispatch<SetStateAction<Sonner>>
+) {
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    const result = await api('/api/users/me/avatar', {
+        method: "PUT",
+        body: formData
+    }, setSonner);
+
+    return result;
 }
