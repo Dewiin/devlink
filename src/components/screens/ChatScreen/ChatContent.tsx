@@ -20,7 +20,8 @@ import {
 } from "@/components/ui/field";
 import { 
     Avatar,
-    AvatarFallback 
+    AvatarFallback, 
+    AvatarImage
 } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 
@@ -174,6 +175,10 @@ export function ChatContent() {
                                         className="cursor-pointer"
                                         onClick={() => navigate(`/profile/${chat.sender.id}`)}
                                         >
+                                            <AvatarImage
+                                            src={chat.sender.avatarUrl}
+                                            alt={`@${chat.sender.displayName}`}
+                                            />
                                             <AvatarFallback>{chat.sender.displayName.charAt(0)}</AvatarFallback>
                                         </Avatar>
                                         :
@@ -218,6 +223,10 @@ export function ChatContent() {
                                         className="cursor-pointer"
                                         onClick={() => navigate(`/profile/${chat.sender.id}`)}
                                         >
+                                            <AvatarImage
+                                            src={chat.sender.avatarUrl}
+                                            alt={`@${chat.sender.displayName}`}
+                                            />
                                             <AvatarFallback>{chat.sender.displayName.charAt(0)}</AvatarFallback>
                                         </Avatar>
                                         :

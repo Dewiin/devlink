@@ -142,6 +142,10 @@ export function HomeContent() {
                                     className="cursor-pointer"
                                     onClick={() => navigate(`/profile/${chat.sender.id}`)}
                                     >
+                                        <AvatarImage
+                                            src={chat.sender.avatarUrl}
+                                            alt={`@${chat.sender.displayName}`}
+                                        />
                                         <AvatarFallback>{chat.sender.displayName.charAt(0)}</AvatarFallback>
                                     </Avatar>
                                     :
@@ -177,6 +181,10 @@ export function HomeContent() {
                                     </div>
                                     {showAvatar ?
                                     <Avatar size="lg">
+                                        <AvatarImage
+                                            src={chat.sender.avatarUrl}
+                                            alt={`@${chat.sender.displayName}`}
+                                        />
                                         <AvatarFallback>{chat.sender.displayName.charAt(0)}</AvatarFallback>
                                     </Avatar>
                                     :
