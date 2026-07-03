@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/input-group"
 import { 
     Avatar,
+    AvatarImage,
     AvatarFallback 
 } from "@/components/ui/avatar";
 
@@ -90,6 +91,10 @@ export function ChatSidebar() {
                         onClick={() => navigate(`/chats/${participant.id}`)}
                         >
                             <Avatar>
+                                <AvatarImage
+                                src={`${participant.avatarUrl}`}
+                                alt={`@${participant.displayName}`}
+                                />
                                 <AvatarFallback>
                                     {participant.displayName.charAt(0)}
                                 </AvatarFallback>

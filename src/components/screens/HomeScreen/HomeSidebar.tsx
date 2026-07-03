@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/input-group"
 import { 
     Avatar,
+    AvatarImage,
     AvatarFallback 
 } from "@/components/ui/avatar"
 
@@ -79,6 +80,10 @@ export function HomeSidebar() {
                     onClick={() => navigate(`/profile/${user.id}`)}
                     >
                         <Avatar>
+                            <AvatarImage
+                            src={user.avatarUrl}
+                            alt={`@${user.displayName}`}
+                            />
                             <AvatarFallback>
                                 {user.displayName.charAt(0)}
                             </AvatarFallback>
