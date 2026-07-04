@@ -50,7 +50,7 @@ export function LoginScreen() {
     const { setSonner } = useUI();
     const navigate = useNavigate();
 
-    const form = useForm({
+    const form = useForm<z.infer<typeof loginSchema>>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
             email: "",

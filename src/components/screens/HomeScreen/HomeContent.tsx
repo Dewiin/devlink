@@ -211,6 +211,7 @@ export function HomeContent() {
                                 {...field}
                                 aria-invalid={fieldState.invalid}
                                 placeholder={`${user ? "Write a message..." : "Sign in to chat."}`} 
+                                className="max-h-40"
                                 />
                                 <InputGroupAddon align="block-end" className="cursor-default">
                                     <p>{field.value.length}/500</p>

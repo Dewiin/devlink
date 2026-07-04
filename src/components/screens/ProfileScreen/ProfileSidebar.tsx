@@ -11,8 +11,6 @@ export function ProfileSidebar() {
     const { edit } = useParams();
     const navigate = useNavigate();
 
-    const active = location.pathname.split('/')[3];
-
     return (
         <div className="w-xs 
         bg-accent rounded-sm m-2 mr-0 p-4">

@@ -253,7 +253,8 @@ export function ChatContent() {
                                 {...field}
                                 aria-invalid={fieldState.invalid}
                                 disabled={!conversation || !user || isLoading || formState.isSubmitting}
-                                placeholder={`${user ? "Write a message..." : "Sign in to chat."}`} 
+                                placeholder={`${user ? "Write a message..." : "Sign in to chat."}`}
+                                className="max-h-40"
                                 />
                                 <InputGroupAddon align="block-end" className="cursor-default">
                                     <p>{field.value.length}/500</p>

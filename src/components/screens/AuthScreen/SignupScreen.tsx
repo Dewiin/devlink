@@ -50,7 +50,7 @@ export function SignupScreen() {
     const { setSonner } = useUI();
     const navigate = useNavigate();
 
-    const form = useForm({
+    const form = useForm<z.infer<typeof signupSchema>>({
         resolver: zodResolver(signupSchema),
         defaultValues: {
             displayName: "",

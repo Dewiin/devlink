@@ -52,3 +52,19 @@ export async function updateBanner(
 
     return result;
 }
+
+export async function updateProfile(
+    data: {
+        displayName: string,
+        bio: string
+    },
+    setSonner: Dispatch<SetStateAction<Sonner>>
+) {
+    const result = await api(`/api/users/me`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {"Content-Type": "application/json"}
+    }, setSonner);
+
+    return result;
+}

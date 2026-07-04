@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useParams, useNavigate } from "react-router"
+import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router"
 import { formatDistanceToNow } from "date-fns";
 
 // api
-import { getProfile, updateAvatar, updateBanner } from "@/api/user";
+import { updateAvatar, updateBanner } from "@/api/user";
 
 // components
 import { 
@@ -21,12 +21,18 @@ import { useUI } from "@/components/contexts/UIContext";
 // icons
 import { Camera, Edit2 } from "lucide-react";
 
-// types 
+// types
 import type { User } from "@/components/types/User";
+import type { Dispatch, SetStateAction } from "react";
 
-export function ProfileContent() {
-    const [ profile, setProfile ] = useState<User|undefined>();
-    const [ isLoading, setIsLoading ] = useState<boolean>(false);
+type ProfileContentProps = {
+    profile: User|undefined,
+    setProfile: Dispatch<SetStateAction<User|undefined>>
+}
+export function ProfileContent({
+    profile,
+    setProfile
+}: ProfileContentProps) {
     const [ hoverPhoto, setHoverPhoto ] = useState<boolean>(false);
     const avatarFileInputRef = useRef<HTMLInputElement>(null);
     const bannerFileInputRef = useRef<HTMLInputElement>(null);
@@ -34,22 +40,6 @@ export function ProfileContent() {
     const { user } = useAuth();
     const { setSonner } = useUI();
     const navigate = useNavigate();
-    const { userId } = useParams();
-
-    useEffect(() => {
-        async function fetchProfile() {
-            if(!userId) return;
-            setIsLoading(true);
-            try {
-                const result = await getProfile(userId);
-                if(result) setProfile(result);
-            } finally {
-                setIsLoading(false);
-            }
-        }
-
-        fetchProfile();
-    }, [userId]);
 
     function handleClick(uploadType: "avatar" | "banner") {
         if(uploadType === "avatar") avatarFileInputRef.current?.click();
@@ -188,7 +178,7 @@ export function ProfileContent() {
             <div className="px-2">
                 {profile.bio &&
                 <p
-                className="italic text-muted-foreground text-sm"
+                className="text-muted-foreground text-sm"
                 >
                     {profile.bio}
                 </p>
