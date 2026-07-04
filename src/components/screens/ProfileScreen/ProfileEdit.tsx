@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -40,6 +40,7 @@ export function ProfileEdit({
     profile,
     setProfile
 }: ProfileEditProps) {
+    const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const { setSonner } = useUI();
     const navigate = useNavigate();
 
@@ -64,17 +65,22 @@ export function ProfileEdit({
     async function handleSubmit(data: z.infer<typeof profileSchema>) {
         if(!profile) return;
         toast.promise(async () => {
-            const result = await updateProfile(data, setSonner);
-            if(result) {
-                setProfile((prev) => {
-                    if(!prev) return prev;
-                    return {
-                        ...prev,
-                        displayName: data.displayName,
-                        bio: data.bio
-                    }
-                });
-                navigate(`/profile/${profile.id}`);
+            setIsLoading(true);
+            try {
+                const result = await updateProfile(data, setSonner);
+                if(result) {
+                    setProfile((prev) => {
+                        if(!prev) return prev;
+                        return {
+                            ...prev,
+                            displayName: data.displayName,
+                            bio: data.bio
+                        }
+                    });
+                    navigate(`/profile/${profile.id}`);
+                }
+            } finally {
+                setIsLoading(false);
             }
         }, {
             loading: "Updating profile...",
@@ -106,7 +112,7 @@ export function ProfileEdit({
                             <InputGroupInput 
                             {...field}
                             aria-invalid={fieldState.invalid}
-                            disabled={formState.isSubmitting}
+                            disabled={isLoading}
                             />
                         </InputGroup>
                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -125,7 +131,7 @@ export function ProfileEdit({
                             {...field}
                             aria-invalid={fieldState.invalid}
                             className="max-h-100"
-                            disabled={formState.isSubmitting}
+                            disabled={isLoading}
                             />
                             <InputGroupAddon align="block-end">
                                 {field.value.length}/500
@@ -139,6 +145,7 @@ export function ProfileEdit({
                 <Button 
                 className="w-fit cursor-pointer" 
                 type="submit"
+                disabled={isLoading}
                 >
                     Submit
                 </Button>
