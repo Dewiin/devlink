@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 // api
 import { getUserConversations } from "@/api/chat";
@@ -31,8 +31,9 @@ export function ChatSidebar() {
     const [ filteredConversations, setFilteredConversations ] = useState<Conversation[]>([]);
     const navigate = useNavigate();
     const { user } = useAuth();
+    const { recipientId } = useParams();
     const { isMobile } = useUI();
-    
+
     useEffect(() => {
         async function getConversations() {
             if(!user) return;
@@ -84,10 +85,11 @@ export function ChatSidebar() {
                     conversation.participants.map((participant) => (
                         <div
                         key={participant.id}
-                        className="flex gap-2 items-end 
+                        className={`flex gap-2 items-end 
                         text-sm font-medium
                         rounded-sm cursor-pointer py-2 px-4 
-                        hover:bg-chart-4/75 active:bg-chart-4 duration-100"
+                        hover:bg-chart-4/75 active:bg-chart-4 duration-100
+                        ${recipientId === participant.id && "bg-chart-4/75"}`}
                         onClick={() => navigate(`/chats/${participant.id}`)}
                         >
                             <Avatar>
