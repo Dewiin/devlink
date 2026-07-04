@@ -1,10 +1,17 @@
-import { useNavigate } from "react-router"
+import { useNavigate, useParams } from "react-router"
+
+// contexts
+import { useAuth } from "@/components/contexts/AuthContext";
 
 // icons
 import { ChevronLeft } from "lucide-react"
 
 export function ProfileSidebar() {
+    const { user } = useAuth();
+    const { edit } = useParams();
     const navigate = useNavigate();
+
+    const active = location.pathname.split('/')[3];
 
     return (
         <div className="w-xs 
@@ -16,6 +23,32 @@ export function ProfileSidebar() {
                 <ChevronLeft />
                 <p className="font-medium text-sm"> Return </p>
             </div>
+
+            { user && 
+            <div className="flex flex-col gap-2 
+            mt-8 cursor-pointer font-medium
+            *:p-2 *:rounded-sm *:text-sm 
+            *:hover:bg-chart-4/75 *:active:bg-chart-4">
+                <p
+                className={`${!edit && "bg-chart-4/75"}`}
+                onClick={() => navigate(`/profile/${user.id}`)}
+                > 
+                    Your Profile 
+                </p>
+                <p
+                className={`${edit === "edit" && "bg-chart-4/75"}`}
+                onClick={() => navigate(`/profile/${user.id}/edit`)}
+                > 
+                    Edit Profile 
+                </p>
+                <p
+                className={`${edit === "password" && "bg-chart-4/75"}`}
+                onClick={() => navigate(`/profile/${user.id}/password`)}
+                > 
+                    Change Password 
+                </p>
+            </div>
+            }
         </div>
     )
 }

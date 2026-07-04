@@ -27,8 +27,7 @@ export function Sidebar() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const active = location.pathname.startsWith("/chats") 
-    ? "chat" : "global";
+    const active = location.pathname.split('/')[1];
 
     function handleLogout() {
         toast.promise(async () => {
@@ -57,14 +56,14 @@ export function Sidebar() {
             *:hover:bg-accent *:active:bg-accent/50 *:duration-100 
             ">
                 <div 
-                className={`${active === "global" && "bg-accent"}`}
+                className={`${active === "" && "bg-accent"}`}
                 onClick={() => navigate("/")}
                 >
                     <Globe />
                     <p>Global</p>
                 </div>
                 <div 
-                className={`${active === "chat" && "bg-accent"}`}
+                className={`${active === "chats" && "bg-accent"}`}
                 onClick={() => navigate("/chats")}
                 >
                     <MessageSquare />
@@ -86,6 +85,7 @@ export function Sidebar() {
                 {!isAuthLoading && user &&
                 <>
                     <div
+                    className={`${active === "profile" && "bg-accent"}`}
                     onClick={() => navigate(`/profile/${user.id}`)}
                     >
                         <CircleUser />

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router"
+import { formatDistanceToNow } from "date-fns";
 
 // api
 import { getProfile, updateAvatar, updateBanner } from "@/api/user";
@@ -169,7 +170,10 @@ export function ProfileContent() {
             </div>
 
             <div className="flex items-center justify-between px-2">
-                <p className="font-medium">{profile.displayName}</p>
+                <div>
+                    <p className="font-medium">{profile.displayName}</p>
+                    <p className="text-xs text-muted-foreground">joined {formatDistanceToNow(profile.createdAt)} ago</p>
+                </div>
 
                 {user && profile.id !== user.id &&
                 <Button 
@@ -180,7 +184,24 @@ export function ProfileContent() {
                 </Button>
                 }
             </div>
-            </> }
+
+            <div className="px-2">
+                {profile.bio &&
+                <p
+                className="italic text-muted-foreground text-sm"
+                >
+                    {profile.bio}
+                </p>
+                }
+                {!profile.bio &&
+                <p
+                className="italic text-muted-foreground text-sm text-center"
+                >
+                    User has no bio.
+                </p>
+                }
+            </div>
+            </>}
         </div>
     )
 }

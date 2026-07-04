@@ -20,7 +20,7 @@ function App() {
         <Route path='/settings' element={<SettingsScreen />} />
         <Route path='/login' element={<LoginScreen />} />
         <Route path='/signup' element={<SignupScreen />} />
-        <Route path='/profile/:userId' element={<ProfileScreen />} />
+        <Route path='/profile/:userId/:edit?' element={<ProfileScreen />} />
         <Route path='/*' element={<Page404 />} />
       </Route>
     </Routes>
