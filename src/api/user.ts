@@ -37,3 +37,18 @@ export async function updateAvatar(
 
     return result;
 }
+
+export async function updateBanner(
+    file: File,
+    setSonner: Dispatch<SetStateAction<Sonner>>
+) {
+    const formData = new FormData();
+    formData.append("banner", file);
+
+    const result = await api('/api/users/me/banner', {
+        method: "PUT",
+        body: formData
+    }, setSonner);
+
+    return result;
+}
