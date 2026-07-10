@@ -175,7 +175,7 @@ export function ProfileContent({
                 }
             </div>
 
-            <div className="px-2">
+            <div className="px-2 max-h-50">
                 {profile.bio &&
                 <p
                 className="text-muted-foreground text-sm"

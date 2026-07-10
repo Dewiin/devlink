@@ -20,6 +20,7 @@ export const profileSchema = z.object({
 });
 
 export const passwordSchema = z.object({
+    oldPassword: z.string(),
     newPassword: z.string().min(PASS_LEN_MINIMUM, {
         error: "Password must be at least " + PASS_LEN_MINIMUM + " characters."
     }). max(PASS_LEN_MAXIMUM, {

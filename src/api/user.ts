@@ -68,3 +68,19 @@ export async function updateProfile(
 
     return result;
 }
+
+export async function updatePassword(
+    data: {
+        oldPassword: string,
+        newPassword: string
+    },
+    setSonner: Dispatch<SetStateAction<Sonner>>
+) {
+    const result = await api(`/api/users/me/password`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {"Content-Type": "application/json"}
+    }, setSonner);
+
+    return result;  
+}

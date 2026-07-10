@@ -38,7 +38,7 @@ export function ProfileScreen() {
     }, [userId]);
 
     return (
-        <div className="w-full h-full flex">
+        <div className="w-full h-full flex select-none">
             {!isMobile && <ProfileSidebar />}
             {!edit && <ProfileContent profile={profile} setProfile={setProfile} />}
             {edit === "edit" && <ProfileEdit profile={profile} setProfile={setProfile} />}

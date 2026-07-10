@@ -105,7 +105,7 @@ export function ProfileEdit({
                 <Controller
                 name="displayName"
                 control={form.control}
-                render={({field, formState, fieldState}) => (
+                render={({field, fieldState}) => (
                     <Field>
                         <FieldLabel>Display Name</FieldLabel>
                         <InputGroup>
@@ -123,7 +123,7 @@ export function ProfileEdit({
                 <Controller
                 name="bio"
                 control={form.control}
-                render={({field, formState, fieldState}) => (
+                render={({field, fieldState}) => (
                     <Field>
                         <FieldLabel>Bio</FieldLabel>
                         <InputGroup>
@@ -134,7 +134,7 @@ export function ProfileEdit({
                             disabled={isLoading}
                             />
                             <InputGroupAddon align="block-end">
-                                {field.value.length}/500
+                                {field.value?.length || 0}/500
                             </InputGroupAddon>
                         </InputGroup>
                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
