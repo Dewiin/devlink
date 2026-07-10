@@ -31,6 +31,10 @@ import { passwordSchema } from "@/components/schemas/profile"
 
 export function ProfilePassword() {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
+    const [ passwordVisible, setPasswordVisible ] = useState({
+        "old": false,
+        "new": false
+    });
     const { setSonner } = useUI();
     
     const form = useForm<z.infer<typeof passwordSchema>>({
@@ -79,10 +83,23 @@ export function ProfilePassword() {
                             <InputGroupInput 
                             {...field}
                             aria-invalid={fieldState.invalid}
-                            type="password"
+                            type={passwordVisible["old"] ? "text" : "password"}
                             autoComplete="new-password"
                             disabled={isLoading}
                             />
+                            <InputGroupAddon align="inline-end" className="*:cursor-pointer">
+                                { passwordVisible["old"] ? 
+                                <Eye onClick={() => setPasswordVisible(prev => ({
+                                    ...prev,
+                                    "old": false
+                                }))} />
+                                :
+                                <EyeOff onClick={() => setPasswordVisible(prev => ({
+                                    ...prev,
+                                    "old": true
+                                }))} />
+                                }
+                            </InputGroupAddon>
                         </InputGroup>
                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </Field>
@@ -99,12 +116,22 @@ export function ProfilePassword() {
                             <InputGroupInput 
                             {...field}
                             aria-invalid={fieldState.invalid}
-                            type="password"
+                            type={passwordVisible["new"] ? "text" : "password"}
                             autoComplete="new-password"
                             disabled={isLoading}
                             />
                             <InputGroupAddon align="inline-end" className="*:cursor-pointer">
-                                <EyeOff />
+                                { passwordVisible["new"] ? 
+                                <Eye onClick={() => setPasswordVisible(prev => ({
+                                    ...prev,
+                                    "new": false
+                                }))} />
+                                :
+                                <EyeOff onClick={() => setPasswordVisible(prev => ({
+                                    ...prev,
+                                    "new": true
+                                }))} />
+                                }
                             </InputGroupAddon>
                         </InputGroup>
                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

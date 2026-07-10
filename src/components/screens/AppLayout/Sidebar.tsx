@@ -31,8 +31,12 @@ export function Sidebar() {
 
     function handleLogout() {
         toast.promise(async () => {
-            const result = await logout(setSonner);
-            if(result) setUser(undefined);
+            try {
+                const result = await logout(setSonner);
+                if(result) setUser(undefined);
+            } finally {
+                navigate('/');
+            }
         }, {
             loading: "Logging out..."
         });
