@@ -50,7 +50,7 @@ export function ChatSidebar() {
         }
 
         getConversations();
-    }, []);
+    }, [user]);
 
     async function handleSearch(data: string) {
         const filtered = conversations.map((conversation) => ({

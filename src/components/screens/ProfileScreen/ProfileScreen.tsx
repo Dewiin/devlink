@@ -19,8 +19,9 @@ import type { User } from "@/components/types/User";
 export function ProfileScreen() {
     const [ profile, setProfile ] = useState<User|undefined>();
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
+    const [ profileMode, setProfileMode ] = useState<string>("profile")
+    const { userId } = useParams();
     const { isMobile } = useUI();
-    const { userId, edit } = useParams();
 
     useEffect(() => {
         async function fetchProfile() {
@@ -39,10 +40,10 @@ export function ProfileScreen() {
 
     return (
         <div className="w-full h-full flex select-none">
-            {!isMobile && <ProfileSidebar />}
-            {!edit && <ProfileContent profile={profile} setProfile={setProfile} />}
-            {edit === "edit" && <ProfileEdit profile={profile} setProfile={setProfile} />}
-            {edit === "password" && <ProfilePassword />}
+            {!isMobile && <ProfileSidebar profileMode={profileMode} setProfileMode={setProfileMode} />}
+            {profileMode === "profile" && <ProfileContent profile={profile} setProfile={setProfile} />}
+            {profileMode === "edit" && <ProfileEdit profile={profile} setProfile={setProfile} />}
+            {profileMode === "password" && <ProfilePassword />}
         </div>
     )
 }

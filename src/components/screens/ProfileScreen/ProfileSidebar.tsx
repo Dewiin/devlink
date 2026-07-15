@@ -6,9 +6,18 @@ import { useAuth } from "@/components/contexts/AuthContext";
 // icons
 import { ChevronLeft } from "lucide-react"
 
-export function ProfileSidebar() {
+// types
+import type { Dispatch, SetStateAction } from "react";
+
+type ProfileSidebarProps = {
+    profileMode: string,
+    setProfileMode: Dispatch<SetStateAction<string>>
+}
+export function ProfileSidebar({
+    profileMode,
+    setProfileMode
+}: ProfileSidebarProps) {
     const { user } = useAuth();
-    const { edit } = useParams();
     const navigate = useNavigate();
 
     return (
@@ -28,20 +37,20 @@ export function ProfileSidebar() {
             *:p-2 *:rounded-sm *:text-sm 
             *:hover:bg-chart-4/75 *:active:bg-chart-4">
                 <p
-                className={`${!edit && "bg-chart-4/75"}`}
-                onClick={() => navigate(`/profile/${user.id}`)}
+                className={`${profileMode === "profile" && "bg-chart-4/75"}`}
+                onClick={() => setProfileMode("profile")}
                 > 
                     Your Profile 
                 </p>
                 <p
-                className={`${edit === "edit" && "bg-chart-4/75"}`}
-                onClick={() => navigate(`/profile/${user.id}/edit`)}
+                className={`${profileMode === "edit" && "bg-chart-4/75"}`}
+                onClick={() => setProfileMode("edit")}
                 > 
                     Edit Profile 
                 </p>
                 <p
-                className={`${edit === "password" && "bg-chart-4/75"}`}
-                onClick={() => navigate(`/profile/${user.id}/password`)}
+                className={`${profileMode === "password" && "bg-chart-4/75"}`}
+                onClick={() => setProfileMode("password")}
                 > 
                     Change Password 
                 </p>
