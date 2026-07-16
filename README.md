@@ -39,7 +39,7 @@ This repository contains the client-side application.
 DevLink's frontend communicates with a separate RESTful API built with Express, Prisma, and PostgreSQL.
 
 - Backend Repository: https://github.com/Dewiin/devlink-api
-- Backend Deployment: *Coming Soon*
+- Backend Deployment: https://devlink-api-0r03.onrender.com
 
 
 ## Features
