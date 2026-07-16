@@ -20,6 +20,7 @@ import { useUI } from "@/components/contexts/UIContext";
 
 // icons
 import { Camera, Edit2 } from "lucide-react";
+import background from "/src/assets/background.jpg"
 
 // types
 import type { User } from "@/components/types/User";
@@ -102,7 +103,7 @@ export function ProfileContent({
             >
                 <img 
                 className="w-full h-full object-cover" 
-                src={`${profile.bannerUrl ? profile.bannerUrl : "/src/assets/background.jpg"}`}
+                src={`${profile.bannerUrl ? profile.bannerUrl : background}`}
                 />
                 {user && profile.id === user.id && 
                 <Edit2
