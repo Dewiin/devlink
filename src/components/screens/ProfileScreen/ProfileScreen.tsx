@@ -18,7 +18,6 @@ import type { User } from "@/components/types/User";
 
 export function ProfileScreen() {
     const [ profile, setProfile ] = useState<User|undefined>();
-    const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ profileMode, setProfileMode ] = useState<string>("profile")
     const { userId } = useParams();
     const { isMobile } = useUI();
@@ -26,13 +25,9 @@ export function ProfileScreen() {
     useEffect(() => {
         async function fetchProfile() {
             if(!userId) return;
-            setIsLoading(true);
-            try {
-                const result = await getProfile(userId);
-                if(result) setProfile(result);
-            } finally {
-                setIsLoading(false);
-            }
+
+            const result = await getProfile(userId);
+            if(result) setProfile(result);
         }
 
         fetchProfile();

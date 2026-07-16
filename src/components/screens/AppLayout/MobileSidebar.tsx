@@ -5,7 +5,6 @@ import { useState } from "react";
 import { logout } from "@/api/auth";
 
 // components
-import { HomeSidebar } from "../HomeScreen/HomeSidebar";
 import { toast } from "sonner";
 
 // contexts
