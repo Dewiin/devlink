@@ -20,6 +20,7 @@ import {
     LogOut, 
     LogIn
 } from "lucide-react"
+import logo from "@/assets/logo.png"
 
 export function Sidebar() {
     const { user, setUser, isAuthLoading } = useAuth();
@@ -49,7 +50,7 @@ export function Sidebar() {
         bg-sidebar text-sm font-semibold select-none"
         >
             <img 
-            src="/src/assets/logo.png"
+            src={logo}
             className="w-12 h-12 rounded-sm m-auto outline" 
             />
 

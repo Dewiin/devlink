@@ -40,6 +40,7 @@ import { useUI } from "@/components/contexts/UIContext";
 
 // icons
 import { Eye, EyeOff } from "lucide-react";
+import logo from "@/assets/logo.png"
 
 // schemas
 import { signupSchema } from "@/components/schemas/auth"
@@ -106,7 +107,7 @@ export function SignupScreen() {
             max-w-lg md:w-md w-xs">
                 <div className="flex gap-2 items-end">
                     <img
-                    src="/src/assets/logo.png"
+                    src={logo}
                     className="rounded-xl outline-1"
                     width={50}
                     />
